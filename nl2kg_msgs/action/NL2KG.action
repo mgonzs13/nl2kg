@@ -1,0 +1,11 @@
+# Request
+string input_text
+---
+# Result
+bool success
+string intent
+nl2kg_msgs/KGOperation[] operations
+string response
+---
+# Feedback
+string status

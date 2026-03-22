@@ -1,0 +1,95 @@
+# Copyright 2026 Miguel Ángel González Santamarta
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import os
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+from ament_index_python import get_package_share_directory
+
+
+def generate_launch_description():
+
+    bringup_share = get_package_share_directory("nl2kg_bringup")
+    llama_bringup_share = get_package_share_directory("llama_bringup")
+    base_launch = os.path.join(llama_bringup_share, "launch", "base.launch.py")
+
+    # Launch arguments
+    model_params_arg = DeclareLaunchArgument(
+        "model_params",
+        default_value=os.path.join(bringup_share, "params", "qwen3_4b.yaml"),
+        description="Path to the LLM model YAML config",
+    )
+
+    embedding_params_arg = DeclareLaunchArgument(
+        "embedding_params",
+        default_value=os.path.join(bringup_share, "params", "bge-base-en-v1.5.yaml"),
+        description="Path to the embedding model YAML config",
+    )
+
+    reranker_params_arg = DeclareLaunchArgument(
+        "reranker_params",
+        default_value=os.path.join(bringup_share, "params", "bge-reranker-v2-m3.yaml"),
+        description="Path to the reranker model YAML config",
+    )
+
+    # Chat LLM
+    llama_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(base_launch),
+        launch_arguments={
+            "params_file": LaunchConfiguration("model_params"),
+            "node_name": "llama_node",
+        }.items(),
+    )
+
+    # Embedding model
+    embedding_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(base_launch),
+        launch_arguments={
+            "params_file": LaunchConfiguration("embedding_params"),
+            "node_name": "embedding_node",
+        }.items(),
+    )
+
+    # Reranker model
+    reranker_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(base_launch),
+        launch_arguments={
+            "params_file": LaunchConfiguration("reranker_params"),
+            "node_name": "reranker_node",
+        }.items(),
+    )
+
+    # NL2KG node
+    nl2kg_node = Node(
+        package="nl2kg",
+        executable="nl2kg_node",
+        name="nl2kg_node",
+        parameters=[
+            os.path.join(bringup_share, "params", "nl2kg.yaml"),
+        ],
+        output="screen",
+    )
+
+    ld = LaunchDescription()
+    ld.add_action(model_params_arg)
+    ld.add_action(embedding_params_arg)
+    ld.add_action(reranker_params_arg)
+    ld.add_action(llama_launch)
+    ld.add_action(embedding_launch)
+    ld.add_action(reranker_launch)
+    ld.add_action(nl2kg_node)
+    return ld

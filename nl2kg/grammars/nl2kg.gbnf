@@ -1,0 +1,33 @@
+# NL2KG Grammar — Constrains LLM output to valid Knowledge Graph operations
+# This GBNF grammar ensures the model outputs well-formed JSON that can be
+# directly parsed into KG operations (create/remove nodes/edges, set properties, queries).
+
+root ::= "{" ws "\"intent\"" ws ":" ws intent-value "," ws "\"operations\"" ws ":" ws op-list "," ws "\"response\"" ws ":" ws string "}" ws
+
+intent-value ::= "\"assert\"" | "\"query\"" | "\"remove\"" | "\"modify\"" | "\"unclear\""
+
+op-list ::= "[]" | "[" ws operation ( "," ws operation )* ws "]"
+
+operation ::= "{" ws "\"op\"" ws ":" ws op-value op-fields ws "}"
+
+op-value ::= "\"create_node\"" | "\"create_edge\"" | "\"remove_node\"" | "\"remove_edge\"" | "\"set_property\"" | "\"query\""
+
+op-fields ::= ( "," ws op-field )*
+
+op-field ::= name-field | node-type-field | edge-type-field | source-field | target-field | key-field | value-field
+
+name-field      ::= "\"name\""      ws ":" ws string
+node-type-field ::= "\"node_type\"" ws ":" ws string
+edge-type-field ::= "\"edge_type\"" ws ":" ws string
+source-field    ::= "\"source\""    ws ":" ws string
+target-field    ::= "\"target\""    ws ":" ws string
+key-field       ::= "\"key\""       ws ":" ws string
+value-field     ::= "\"value\""     ws ":" ws string
+
+# JSON string: supports escape sequences
+string ::= "\"" char* "\""
+char   ::= [^"\\] | "\\" escape
+escape ::= "\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" | "u" hex hex hex hex
+hex    ::= [0-9a-fA-F]
+
+ws ::= [ \t\n]*

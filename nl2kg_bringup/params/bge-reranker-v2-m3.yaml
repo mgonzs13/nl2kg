@@ -1,0 +1,17 @@
+/**:
+  ros__parameters:
+    model:
+      repo: gpustack/bge-reranker-v2-m3-GGUF
+      filename: bge-reranker-v2-m3-Q4_K_M.gguf
+
+    context:
+      n_ctx: 2048
+      n_batch: 2048
+      n_predict: 2048
+      reranking: true
+
+    gpu:
+      n_gpu_layers: 0
+
+    cpu:
+      n_threads: -1
