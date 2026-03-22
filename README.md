@@ -151,7 +151,7 @@ Configured in `nl2kg_bringup/params/nl2kg.yaml`:
 Generate the KG-Dialogue-500 benchmark:
 
 ```bash
-cd ~/ros2_ws/src/nl2kg
+cd ~/ros2_ws/src/nl2kg/nl2kg
 python3 scripts/generate_dataset.py -n 500 -s 42 -o kg_dialogue_500.json
 ```
 
@@ -191,7 +191,7 @@ Wait until you see `NL2KG node ready` in the logs before running the evaluation.
 In a separate terminal:
 
 ```bash
-cd ~/ros2_ws/src/nl2kg
+cd ~/ros2_ws/src/nl2kg/nl2kg
 python3 scripts/evaluate.py --dataset kg_dialogue_500.json --output results.json --timeout 30
 ```
 
@@ -252,12 +252,3 @@ nl2kg_node:
 ```
 
 Run the evaluation with each configuration and compare results.
-
-## Unit Tests
-
-```bash
-cd ~/ros2_ws/src/nl2kg
-python3 -m pytest test/test_nl2kg.py -v
-```
-
-This runs 24 tests covering models, value casting, grammar validation, metrics, and dataset generation.
