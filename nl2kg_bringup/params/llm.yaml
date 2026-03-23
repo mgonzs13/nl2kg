@@ -1,11 +1,11 @@
 /**:
   ros__parameters:
     model:
-      repo: bartowski/Qwen_Qwen3-4B-GGUF
-      filename: Qwen_Qwen3-4B-Q4_K_M.gguf
+      repo: ggml-org/gemma-3-4b-it-GGUF
+      filename: gemma-3-4b-it-Q4_K_M.gguf
 
     context:
-      n_ctx: 4096
+      n_ctx: 8192
       n_batch: 256
       n_predict: -1
 

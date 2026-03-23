@@ -58,7 +58,7 @@ nl2kg_bringup/
 │   └── nl2kg.launch.py         # Launch LLM + embedding + reranker + NL2KG node
 ├── params/
 │   ├── nl2kg.yaml              # NL2KG node parameters
-│   ├── qwen3_4b.yaml           # Chat LLM config
+│   ├── llm.yaml                # Chat LLM config
 │   ├── bge-base-en-v1.5.yaml   # Embedding model config
 │   └── bge-reranker-v2-m3.yaml # Reranker model config
 ├── package.xml

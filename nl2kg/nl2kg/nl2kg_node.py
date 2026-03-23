@@ -47,6 +47,18 @@ Your job is to translate natural-language sentences into structured \
 Knowledge Graph (KG) operations AND to answer questions about the current \
 graph state.
 
+## Intent definitions
+- "assert": The user is adding NEW facts to the graph (creating nodes, \
+creating edges, or doing multiple operations that introduce new information). \
+Use this for ANY sentence that adds nodes or edges, even if it also sets \
+properties.
+- "query": The user is asking a question about the graph. Do NOT generate \
+operations; put the answer in "response".
+- "remove": The user wants to delete nodes or edges from the graph.
+- "modify": The user wants to change a property on an EXISTING node or edge \
+(set_property only, without creating new nodes or edges).
+- "unclear": The request is ambiguous; ask for clarification.
+
 ## Available operations
 | op             | Required fields                             |
 |----------------|---------------------------------------------|
@@ -54,8 +66,17 @@ graph state.
 | create_edge    | edge_type, source, target                   |
 | remove_node    | name                                        |
 | remove_edge    | edge_type, source, target                   |
-| set_property   | name (node) OR source+target (edge), key, value |
+| set_property   | name, key, value                            |
 | query          | (none — answer in "response")               |
+
+## Domain vocabulary (use ONLY these values)
+- node_type: "robot", "location", "person", "cup", "book", "box", "bottle", \
+"tool", "plate", "charger", "tray"
+- edge_type: "at", "in", "near", "holds", "carries", "sees", "faces"
+
+## set_property rules
+- For node properties, always set the "name" field to the node name.
+- Only use "source" and "target" when setting a property on an edge.
 
 ## Output format
 Always reply with a single JSON object:
@@ -70,8 +91,77 @@ Always reply with a single JSON object:
 same response.
 2. If the user request is ambiguous, set intent to "unclear" and ask for \
 clarification in "response".
-3. For queries, set operations to [] and put the answer in "response".
+3. For queries, set intent to "query", operations to [] and put the answer \
+in "response".
 4. Keep "response" concise and informative.
+5. When the user says a robot "is at/in/near" a location, or "went to" / \
+"move to" a location, create an edge using the EXACT preposition from the \
+sentence as edge_type (at, in, or near). If no preposition is given, \
+default to "at".
+6. For edge removal, use the EXACT edge_type mentioned in the sentence. \
+If not explicitly stated, default to "at".
+7. Do NOT create extra nodes when only an edge or property operation is \
+requested.
+
+## Examples
+
+User: "Add a robot called tiago."
+{{
+  "intent": "assert",
+  "operations": [{{"op": "create_node", "name": "tiago", "node_type": "robot"}}],
+  "response": "Created node 'tiago' of type 'robot'."
+}}
+
+User: "robot1 is at the kitchen."
+{{
+  "intent": "assert",
+  "operations": [
+    {{"op": "create_edge", "edge_type": "at", "source": "robot1", "target": "kitchen"}},
+    {{"op": "create_node", "name": "robot1", "node_type": "robot"}},
+    {{"op": "create_node", "name": "kitchen", "node_type": "location"}},
+  ],
+  "response": "robot1 is now at kitchen."
+}}
+
+User: "Set robot1's battery to 80."
+{{
+  "intent": "modify",
+  "operations": [{{"op": "set_property", "name": "robot1", "key": "battery", "value": "80"}}],
+  "response": "Set battery of robot1 to 80."
+}}
+
+User: "Where is robot1?"
+{{
+  "intent": "query",
+  "operations": [],
+  "response": "robot1 is at the kitchen."
+}}
+
+User: "Remove robot1 from the graph."
+{{
+  "intent": "remove",
+  "operations": [{{"op": "remove_node", "name": "robot1"}}],
+  "response": "Removed node 'robot1'."
+}}
+
+User: "robot1 is not at kitchen anymore."
+{{
+  "intent": "remove",
+  "operations": [{{"op": "remove_edge", "edge_type": "at", "source": "robot1", "target": "kitchen"}}],
+  "response": "Removed edge 'at' from robot1 to kitchen."
+}}
+
+User: "Add spot in the lab with battery 50."
+{{
+  "intent": "assert",
+  "operations": [
+    {{"op": "create_node", "name": "lab", "node_type": "location"}},
+    {{"op": "create_node", "name": "spot", "node_type": "robot"}},
+    {{"op": "create_edge", "edge_type": "in", "source": "spot", "target": "lab"}},
+    {{"op": "set_property", "name": "spot", "key": "battery", "value": "50"}}
+  ],
+  "response": "Done. spot registered with the given configuration."
+}}
 
 ## Current Knowledge Graph state
 {kg_context}
@@ -288,6 +378,13 @@ class NL2KGNode(Node):
             ai_msg = self.llm.invoke(messages)
             raw = ai_msg.content.strip()
             data = json.loads(raw)
+            # Remove reasoning field if present (not part of KGResponse)
+            data.pop("reasoning", None)
+            # Normalize operations: convert empty strings to None
+            for op in data.get("operations", []):
+                for k in list(op.keys()):
+                    if op[k] == "":
+                        op[k] = None
             return KGResponse(**data)
 
     # ------------------------------------------------------------------

@@ -30,7 +30,7 @@ def generate_launch_description():
     # Launch arguments
     model_params_arg = DeclareLaunchArgument(
         "model_params",
-        default_value=os.path.join(bringup_share, "params", "qwen3_4b.yaml"),
+        default_value=os.path.join(bringup_share, "params", "llm.yaml"),
         description="Path to the LLM model YAML config",
     )
 

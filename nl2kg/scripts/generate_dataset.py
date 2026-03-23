@@ -111,17 +111,27 @@ def _create_node_sample():
 
 def _create_edge_sample():
     """Category 2: edge creation."""
-    templates = [
+    # Templates where the preposition (rel) appears literally in the text
+    templates_with_rel = [
         "{robot} is {rel} the {loc}.",
-        "Move {robot} to {loc}.",
         "{robot} is now {rel} {loc}.",
         "Place {robot} {rel} {loc}.",
+    ]
+    # Templates where no specific preposition is given — default to "at"
+    templates_default = [
+        "Move {robot} to {loc}.",
         "The robot {robot} went to {loc}.",
     ]
     robot = _pick(ROBOT_NAMES)
     loc = _pick(LOCATIONS)
-    rel = _pick(EDGE_TYPES_LOC)
-    nl = _pick(templates).format(robot=robot, loc=loc, rel=rel)
+
+    if random.random() < 0.6:
+        rel = _pick(EDGE_TYPES_LOC)
+        nl = _pick(templates_with_rel).format(robot=robot, loc=loc, rel=rel)
+    else:
+        rel = "at"
+        nl = _pick(templates_default).format(robot=robot, loc=loc)
+
     ops = [{"op": "create_edge", "edge_type": rel, "source": robot, "target": loc}]
     return {
         "nl_input": nl,
@@ -234,17 +244,27 @@ def _remove_node_sample():
 
 def _remove_edge_sample():
     """Category 7: edge removal."""
-    templates = [
+    # Templates where the preposition (rel) appears literally in the text
+    templates_with_rel = [
+        "{robot} is not {rel} {loc} anymore.",
+        "Delete the '{rel}' edge from {robot} to {loc}.",
+    ]
+    # Templates where no specific preposition is given — default to "at"
+    templates_default = [
         "{robot} is no longer at {loc}.",
         "Remove the connection between {robot} and {loc}.",
         "{robot} left {loc}.",
-        "Delete the '{rel}' edge from {robot} to {loc}.",
-        "{robot} is not {rel} {loc} anymore.",
     ]
     robot = _pick(ROBOT_NAMES)
     loc = _pick(LOCATIONS)
-    rel = _pick(EDGE_TYPES_LOC)
-    nl = _pick(templates).format(robot=robot, loc=loc, rel=rel)
+
+    if random.random() < 0.4:
+        rel = _pick(EDGE_TYPES_LOC)
+        nl = _pick(templates_with_rel).format(robot=robot, loc=loc, rel=rel)
+    else:
+        rel = "at"
+        nl = _pick(templates_default).format(robot=robot, loc=loc)
+
     ops = [{"op": "remove_edge", "edge_type": rel, "source": robot, "target": loc}]
     return {
         "nl_input": nl,
@@ -260,10 +280,10 @@ def _remove_edge_sample():
 def _multi_op_sample():
     """Category 8: multi-operation commands."""
     templates = [
-        "Add {robot} in the {loc} with battery {bat}.",
-        "Create {robot}, place it at {loc}, and set its status to {status}.",
-        "{robot} is a robot at {loc} carrying a {obj}.",
-        "Register {robot} at {loc} with speed {speed}.",
+        ("Add {robot} in the {loc} with battery {bat}.", "in"),
+        ("Create {robot}, place it at {loc}, and set its status to {status}.", "at"),
+        ("{robot} is a robot at {loc} carrying a {obj}.", "at"),
+        ("Register {robot} at {loc} with speed {speed}.", "at"),
     ]
     robot = _pick(ROBOT_NAMES)
     loc = _pick(LOCATIONS)
@@ -273,31 +293,30 @@ def _multi_op_sample():
     speed = _pick(PROPERTIES["speed"])
 
     idx = random.randint(0, len(templates) - 1)
-    nl = templates[idx].format(
-        robot=robot, loc=loc, bat=bat, status=status, obj=obj, speed=speed
-    )
+    tmpl, edge_rel = templates[idx]
+    nl = tmpl.format(robot=robot, loc=loc, bat=bat, status=status, obj=obj, speed=speed)
 
     ops = [{"op": "create_node", "name": robot, "node_type": "robot"}]
 
     if idx == 0:
         ops += [
-            {"op": "create_edge", "edge_type": "at", "source": robot, "target": loc},
+            {"op": "create_edge", "edge_type": edge_rel, "source": robot, "target": loc},
             {"op": "set_property", "name": robot, "key": "battery", "value": bat},
         ]
     elif idx == 1:
         ops += [
-            {"op": "create_edge", "edge_type": "at", "source": robot, "target": loc},
+            {"op": "create_edge", "edge_type": edge_rel, "source": robot, "target": loc},
             {"op": "set_property", "name": robot, "key": "status", "value": status},
         ]
     elif idx == 2:
         ops += [
-            {"op": "create_edge", "edge_type": "at", "source": robot, "target": loc},
+            {"op": "create_edge", "edge_type": edge_rel, "source": robot, "target": loc},
             {"op": "create_node", "name": obj, "node_type": obj},
             {"op": "create_edge", "edge_type": "carries", "source": robot, "target": obj},
         ]
     else:
         ops += [
-            {"op": "create_edge", "edge_type": "at", "source": robot, "target": loc},
+            {"op": "create_edge", "edge_type": edge_rel, "source": robot, "target": loc},
             {"op": "set_property", "name": robot, "key": "speed", "value": speed},
         ]
 

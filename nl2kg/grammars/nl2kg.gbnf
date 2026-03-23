@@ -8,21 +8,25 @@ intent-value ::= "\"assert\"" | "\"query\"" | "\"remove\"" | "\"modify\"" | "\"u
 
 op-list ::= "[]" | "[" ws operation ( "," ws operation )* ws "]"
 
-operation ::= "{" ws "\"op\"" ws ":" ws op-value op-fields ws "}"
+# --- typed operation variants ---
+operation ::= create-node-op | create-edge-op | remove-node-op | remove-edge-op | set-property-op | query-op
 
-op-value ::= "\"create_node\"" | "\"create_edge\"" | "\"remove_node\"" | "\"remove_edge\"" | "\"set_property\"" | "\"query\""
+create-node-op ::= "{" ws "\"op\"" ws ":" ws "\"create_node\"" "," ws "\"name\"" ws ":" ws string "," ws "\"node_type\"" ws ":" ws node-type-value ws "}"
 
-op-fields ::= ( "," ws op-field )*
+create-edge-op ::= "{" ws "\"op\"" ws ":" ws "\"create_edge\"" "," ws "\"edge_type\"" ws ":" ws edge-type-value "," ws "\"source\"" ws ":" ws string "," ws "\"target\"" ws ":" ws string ws "}"
 
-op-field ::= name-field | node-type-field | edge-type-field | source-field | target-field | key-field | value-field
+remove-node-op ::= "{" ws "\"op\"" ws ":" ws "\"remove_node\"" "," ws "\"name\"" ws ":" ws string ws "}"
 
-name-field      ::= "\"name\""      ws ":" ws string
-node-type-field ::= "\"node_type\"" ws ":" ws string
-edge-type-field ::= "\"edge_type\"" ws ":" ws string
-source-field    ::= "\"source\""    ws ":" ws string
-target-field    ::= "\"target\""    ws ":" ws string
-key-field       ::= "\"key\""       ws ":" ws string
-value-field     ::= "\"value\""     ws ":" ws string
+remove-edge-op ::= "{" ws "\"op\"" ws ":" ws "\"remove_edge\"" "," ws "\"edge_type\"" ws ":" ws edge-type-value "," ws "\"source\"" ws ":" ws string "," ws "\"target\"" ws ":" ws string ws "}"
+
+set-property-op ::= "{" ws "\"op\"" ws ":" ws "\"set_property\"" "," ws "\"name\"" ws ":" ws string "," ws "\"key\"" ws ":" ws string "," ws "\"value\"" ws ":" ws string ws "}"
+
+query-op ::= "{" ws "\"op\"" ws ":" ws "\"query\"" ws "}"
+
+# --- constrained vocabulary ---
+node-type-value ::= "\"robot\"" | "\"location\"" | "\"person\"" | "\"cup\"" | "\"book\"" | "\"box\"" | "\"bottle\"" | "\"tool\"" | "\"plate\"" | "\"charger\"" | "\"tray\""
+
+edge-type-value ::= "\"at\"" | "\"in\"" | "\"near\"" | "\"holds\"" | "\"carries\"" | "\"sees\"" | "\"faces\""
 
 # JSON string: supports escape sequences
 string ::= "\"" char* "\""

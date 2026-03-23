@@ -17,19 +17,36 @@ from collections import defaultdict
 
 
 def normalize_ops(ops: list[dict]) -> list[tuple]:
-    """Convert operations to hashable tuples for set comparison."""
+    """Convert operations to hashable tuples for set comparison.
+
+    Empty strings and None are treated as equivalent (both become "").
+    Only fields relevant to each operation type are included to avoid
+    spurious mismatches from extra empty fields.
+    """
     result = []
     for op in ops:
-        key = (
-            op.get("op", ""),
-            op.get("name", ""),
-            op.get("node_type", ""),
-            op.get("edge_type", ""),
-            op.get("source", ""),
-            op.get("target", ""),
-            op.get("key", ""),
-            op.get("value", ""),
-        )
+        op_type = op.get("op", "") or ""
+        name = op.get("name", "") or ""
+        node_type = op.get("node_type", "") or ""
+        edge_type = op.get("edge_type", "") or ""
+        source = op.get("source", "") or ""
+        target = op.get("target", "") or ""
+        key_val = op.get("key", "") or ""
+        value = op.get("value", "") or ""
+
+        # Normalize to only the relevant fields per operation type
+        if op_type == "create_node":
+            key = (op_type, name, node_type, "", "", "", "", "")
+        elif op_type in ("create_edge", "remove_edge"):
+            key = (op_type, "", "", edge_type, source, target, "", "")
+        elif op_type == "remove_node":
+            key = (op_type, name, "", "", "", "", "", "")
+        elif op_type == "set_property":
+            key = (op_type, name, "", "", source, target, key_val, value)
+        elif op_type == "query":
+            key = (op_type, "", "", "", "", "", "", "")
+        else:
+            key = (op_type, name, node_type, edge_type, source, target, key_val, value)
         result.append(key)
     return result
 
