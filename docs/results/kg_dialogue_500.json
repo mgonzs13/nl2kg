@@ -1,0 +1,8226 @@
+[
+  {
+    "nl_input": "What does robot2 hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 1
+  },
+  {
+    "nl_input": "There is a bottle named cup.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "cup",
+          "node_type": "bottle"
+        }
+      ],
+      "response": "Created node 'cup' of type 'bottle'."
+    },
+    "category": "node_creation",
+    "id": 2
+  },
+  {
+    "nl_input": "Add spot in the living_room with battery 100.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "living_room"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "battery",
+          "value": "100"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 3
+  },
+  {
+    "nl_input": "Register tiago at kitchen with speed 0.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "kitchen"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 4
+  },
+  {
+    "nl_input": "robot1 is in the corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "corridor"
+        }
+      ],
+      "response": "robot1 is now in corridor."
+    },
+    "category": "edge_creation",
+    "id": 5
+  },
+  {
+    "nl_input": "spot is no longer at bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'at' from spot to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 6
+  },
+  {
+    "nl_input": "Place robot1 in kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "kitchen"
+        }
+      ],
+      "response": "robot1 is now in kitchen."
+    },
+    "category": "edge_creation",
+    "id": 7
+  },
+  {
+    "nl_input": "ur5 is at the office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "office"
+        }
+      ],
+      "response": "ur5 is now at office."
+    },
+    "category": "edge_creation",
+    "id": 8
+  },
+  {
+    "nl_input": "tiago is a robot at warehouse carrying a box.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "warehouse"
+        },
+        {
+          "op": "create_node",
+          "name": "box",
+          "node_type": "box"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "tiago",
+          "target": "box"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 9
+  },
+  {
+    "nl_input": "robot1 left garage.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to garage."
+    },
+    "category": "edge_removal",
+    "id": 10
+  },
+  {
+    "nl_input": "Remove book from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "book"
+        }
+      ],
+      "response": "Removed node 'book'."
+    },
+    "category": "node_removal",
+    "id": 11
+  },
+  {
+    "nl_input": "Show me the relationships of ur5.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 12
+  },
+  {
+    "nl_input": "Move robot1 to bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "bedroom"
+        }
+      ],
+      "response": "robot1 is now at bedroom."
+    },
+    "category": "edge_creation",
+    "id": 13
+  },
+  {
+    "nl_input": "Remove robot2 from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "robot2"
+        }
+      ],
+      "response": "Removed node 'robot2'."
+    },
+    "category": "node_removal",
+    "id": 14
+  },
+  {
+    "nl_input": "robot1 is not near corridor anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "near",
+          "source": "robot1",
+          "target": "corridor"
+        }
+      ],
+      "response": "Removed edge 'near' from robot1 to corridor."
+    },
+    "category": "edge_removal",
+    "id": 15
+  },
+  {
+    "nl_input": "robot2 is now at corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "corridor"
+        }
+      ],
+      "response": "robot2 is now at corridor."
+    },
+    "category": "edge_creation",
+    "id": 16
+  },
+  {
+    "nl_input": "There is a location named lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "lab",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'lab' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 17
+  },
+  {
+    "nl_input": "robot1 is not near living_room anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "near",
+          "source": "robot1",
+          "target": "living_room"
+        }
+      ],
+      "response": "Removed edge 'near' from robot1 to living_room."
+    },
+    "category": "edge_removal",
+    "id": 18
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 19
+  },
+  {
+    "nl_input": "Add a robot called ur5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'ur5' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 20
+  },
+  {
+    "nl_input": "Create pepper, place it at kitchen, and set its status to charging.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        },
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "status",
+          "value": "charging"
+        }
+      ],
+      "response": "Done. pepper registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 21
+  },
+  {
+    "nl_input": "What is connected to ur5?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 22
+  },
+  {
+    "nl_input": "Place robot2 at warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "warehouse"
+        }
+      ],
+      "response": "robot2 is now at warehouse."
+    },
+    "category": "edge_creation",
+    "id": 23
+  },
+  {
+    "nl_input": "I want to add bob as a person to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bob",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'bob' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 24
+  },
+  {
+    "nl_input": "Show me the relationships of robot1.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 25
+  },
+  {
+    "nl_input": "What type is book?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 26
+  },
+  {
+    "nl_input": "What is ur5 doing?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 27
+  },
+  {
+    "nl_input": "Where is spot?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 28
+  },
+  {
+    "nl_input": "Update pepper: speed = 1.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Set speed of pepper to 1.5."
+    },
+    "category": "property_setting",
+    "id": 29
+  },
+  {
+    "nl_input": "Delete the 'at' edge from spot to bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'at' from spot to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 30
+  },
+  {
+    "nl_input": "Remove ur5 from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "ur5"
+        }
+      ],
+      "response": "Removed node 'ur5'."
+    },
+    "category": "node_removal",
+    "id": 31
+  },
+  {
+    "nl_input": "Move robot2 to living_room.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "living_room"
+        }
+      ],
+      "response": "robot2 is now at living_room."
+    },
+    "category": "edge_creation",
+    "id": 32
+  },
+  {
+    "nl_input": "Register spot at lab with speed 0.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 33
+  },
+  {
+    "nl_input": "Move robot2 to warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "warehouse"
+        }
+      ],
+      "response": "robot2 is now at warehouse."
+    },
+    "category": "edge_creation",
+    "id": 34
+  },
+  {
+    "nl_input": "Get rid of pepper.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "pepper"
+        }
+      ],
+      "response": "Removed node 'pepper'."
+    },
+    "category": "node_removal",
+    "id": 35
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 36
+  },
+  {
+    "nl_input": "What is connected to bottle?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 37
+  },
+  {
+    "nl_input": "Register robot2 at living_room with speed 1.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "living_room"
+        },
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "speed",
+          "value": "1.0"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 38
+  },
+  {
+    "nl_input": "Remove the connection between pepper and warehouse.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "warehouse"
+        }
+      ],
+      "response": "Removed edge 'at' from pepper to warehouse."
+    },
+    "category": "edge_removal",
+    "id": 39
+  },
+  {
+    "nl_input": "There is a person named alice.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "alice",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'alice' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 40
+  },
+  {
+    "nl_input": "Add robot2 in the living_room with battery 10.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot2",
+          "target": "living_room"
+        },
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 41
+  },
+  {
+    "nl_input": "Register a new location called living_room in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "living_room",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'living_room' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 42
+  },
+  {
+    "nl_input": "ur5 is a robot at warehouse carrying a tray.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "warehouse"
+        },
+        {
+          "op": "create_node",
+          "name": "tray",
+          "node_type": "tray"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "ur5",
+          "target": "tray"
+        }
+      ],
+      "response": "Done. ur5 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 43
+  },
+  {
+    "nl_input": "robot1 is no longer at bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 44
+  },
+  {
+    "nl_input": "Where is tiago?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 45
+  },
+  {
+    "nl_input": "What does pepper hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 46
+  },
+  {
+    "nl_input": "Add a robot called robot2.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot2' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 47
+  },
+  {
+    "nl_input": "Create a node for office, it is a location.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "office",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'office' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 48
+  },
+  {
+    "nl_input": "Place pepper at bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "bedroom"
+        }
+      ],
+      "response": "pepper is now at bedroom."
+    },
+    "category": "edge_creation",
+    "id": 49
+  },
+  {
+    "nl_input": "I want to add charger as a cup to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "charger",
+          "node_type": "cup"
+        }
+      ],
+      "response": "Created node 'charger' of type 'cup'."
+    },
+    "category": "node_creation",
+    "id": 50
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 51
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 52
+  },
+  {
+    "nl_input": "spot is a robot at living_room carrying a charger.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "living_room"
+        },
+        {
+          "op": "create_node",
+          "name": "charger",
+          "node_type": "charger"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "spot",
+          "target": "charger"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 53
+  },
+  {
+    "nl_input": "Change the color of tiago to green.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "color",
+          "value": "green"
+        }
+      ],
+      "response": "Set color of tiago to green."
+    },
+    "category": "property_setting",
+    "id": 54
+  },
+  {
+    "nl_input": "Create a node for tool, it is a plate.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tool",
+          "node_type": "plate"
+        }
+      ],
+      "response": "Created node 'tool' of type 'plate'."
+    },
+    "category": "node_creation",
+    "id": 55
+  },
+  {
+    "nl_input": "robot1 is now in lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "lab"
+        }
+      ],
+      "response": "robot1 is now in lab."
+    },
+    "category": "edge_creation",
+    "id": 56
+  },
+  {
+    "nl_input": "Change the color of spot to white.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "color",
+          "value": "white"
+        }
+      ],
+      "response": "Set color of spot to white."
+    },
+    "category": "property_setting",
+    "id": 57
+  },
+  {
+    "nl_input": "Take ur5 out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "ur5"
+        }
+      ],
+      "response": "Removed node 'ur5'."
+    },
+    "category": "node_removal",
+    "id": 58
+  },
+  {
+    "nl_input": "book is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "book"
+        }
+      ],
+      "response": "Removed node 'book'."
+    },
+    "category": "node_removal",
+    "id": 59
+  },
+  {
+    "nl_input": "What is spot doing?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 60
+  },
+  {
+    "nl_input": "spot left kitchen.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "kitchen"
+        }
+      ],
+      "response": "Removed edge 'at' from spot to kitchen."
+    },
+    "category": "edge_removal",
+    "id": 61
+  },
+  {
+    "nl_input": "Get rid of robot1.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "robot1"
+        }
+      ],
+      "response": "Removed node 'robot1'."
+    },
+    "category": "node_removal",
+    "id": 62
+  },
+  {
+    "nl_input": "Register tiago at office with speed 2.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "office"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 63
+  },
+  {
+    "nl_input": "Change the status of robot2 to moving.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "status",
+          "value": "moving"
+        }
+      ],
+      "response": "Set status of robot2 to moving."
+    },
+    "category": "property_setting",
+    "id": 64
+  },
+  {
+    "nl_input": "Delete the 'in' edge from pepper to bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "pepper",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'in' from pepper to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 65
+  },
+  {
+    "nl_input": "Change the status of spot to busy.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "status",
+          "value": "busy"
+        }
+      ],
+      "response": "Set status of spot to busy."
+    },
+    "category": "property_setting",
+    "id": 66
+  },
+  {
+    "nl_input": "There is a person named bob.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bob",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'bob' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 67
+  },
+  {
+    "nl_input": "Add a robot called robot1.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot1' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 68
+  },
+  {
+    "nl_input": "Update robot2: color = white.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "color",
+          "value": "white"
+        }
+      ],
+      "response": "Set color of robot2 to white."
+    },
+    "category": "property_setting",
+    "id": 69
+  },
+  {
+    "nl_input": "box is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "box"
+        }
+      ],
+      "response": "Removed node 'box'."
+    },
+    "category": "node_removal",
+    "id": 70
+  },
+  {
+    "nl_input": "Add robot1 in the garage with battery 10.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 71
+  },
+  {
+    "nl_input": "spot is near the living_room.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "spot",
+          "target": "living_room"
+        }
+      ],
+      "response": "spot is now near living_room."
+    },
+    "category": "edge_creation",
+    "id": 72
+  },
+  {
+    "nl_input": "tiago is not at kitchen anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "kitchen"
+        }
+      ],
+      "response": "Removed edge 'at' from tiago to kitchen."
+    },
+    "category": "edge_removal",
+    "id": 73
+  },
+  {
+    "nl_input": "Is there a robot called tiago?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 74
+  },
+  {
+    "nl_input": "Move robot2 to lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "lab"
+        }
+      ],
+      "response": "robot2 is now at lab."
+    },
+    "category": "edge_creation",
+    "id": 75
+  },
+  {
+    "nl_input": "Delete the node tiago.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tiago"
+        }
+      ],
+      "response": "Removed node 'tiago'."
+    },
+    "category": "node_removal",
+    "id": 76
+  },
+  {
+    "nl_input": "robot1 is not in corridor anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "corridor"
+        }
+      ],
+      "response": "Removed edge 'in' from robot1 to corridor."
+    },
+    "category": "edge_removal",
+    "id": 77
+  },
+  {
+    "nl_input": "The status of pepper is charging.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "status",
+          "value": "charging"
+        }
+      ],
+      "response": "Set status of pepper to charging."
+    },
+    "category": "property_setting",
+    "id": 78
+  },
+  {
+    "nl_input": "Is tiago in the office?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 79
+  },
+  {
+    "nl_input": "Create tiago, place it at garage, and set its status to moving.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "status",
+          "value": "moving"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 80
+  },
+  {
+    "nl_input": "pepper is no longer at warehouse.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "warehouse"
+        }
+      ],
+      "response": "Removed edge 'at' from pepper to warehouse."
+    },
+    "category": "edge_removal",
+    "id": 81
+  },
+  {
+    "nl_input": "Move tiago to lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "lab"
+        }
+      ],
+      "response": "tiago is now at lab."
+    },
+    "category": "edge_creation",
+    "id": 82
+  },
+  {
+    "nl_input": "Place robot2 in garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot2",
+          "target": "garage"
+        }
+      ],
+      "response": "robot2 is now in garage."
+    },
+    "category": "edge_creation",
+    "id": 83
+  },
+  {
+    "nl_input": "Move tiago to lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "lab"
+        }
+      ],
+      "response": "tiago is now at lab."
+    },
+    "category": "edge_creation",
+    "id": 84
+  },
+  {
+    "nl_input": "Set tiago's battery to 10.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Set battery of tiago to 10."
+    },
+    "category": "property_setting",
+    "id": 85
+  },
+  {
+    "nl_input": "Register a new charger called tool in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tool",
+          "node_type": "charger"
+        }
+      ],
+      "response": "Created node 'tool' of type 'charger'."
+    },
+    "category": "node_creation",
+    "id": 86
+  },
+  {
+    "nl_input": "Remove tool from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tool"
+        }
+      ],
+      "response": "Removed node 'tool'."
+    },
+    "category": "node_removal",
+    "id": 87
+  },
+  {
+    "nl_input": "spot left kitchen.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "kitchen"
+        }
+      ],
+      "response": "Removed edge 'at' from spot to kitchen."
+    },
+    "category": "edge_removal",
+    "id": 88
+  },
+  {
+    "nl_input": "Create a node for warehouse, it is a location.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "warehouse",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'warehouse' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 89
+  },
+  {
+    "nl_input": "The robot robot1 went to garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        }
+      ],
+      "response": "robot1 is now at garage."
+    },
+    "category": "edge_creation",
+    "id": 90
+  },
+  {
+    "nl_input": "Place robot2 in warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot2",
+          "target": "warehouse"
+        }
+      ],
+      "response": "robot2 is now in warehouse."
+    },
+    "category": "edge_creation",
+    "id": 91
+  },
+  {
+    "nl_input": "robot1 is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "robot1"
+        }
+      ],
+      "response": "Removed node 'robot1'."
+    },
+    "category": "node_removal",
+    "id": 92
+  },
+  {
+    "nl_input": "What is connected to pepper?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 93
+  },
+  {
+    "nl_input": "robot2 is a robot at warehouse carrying a cup.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "warehouse"
+        },
+        {
+          "op": "create_node",
+          "name": "cup",
+          "node_type": "cup"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot2",
+          "target": "cup"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 94
+  },
+  {
+    "nl_input": "Show me the relationships of robot2.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 95
+  },
+  {
+    "nl_input": "There is a location named office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "office",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'office' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 96
+  },
+  {
+    "nl_input": "Place ur5 near bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "ur5",
+          "target": "bedroom"
+        }
+      ],
+      "response": "ur5 is now near bedroom."
+    },
+    "category": "edge_creation",
+    "id": 97
+  },
+  {
+    "nl_input": "Add tiago in the garage with battery 50.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "tiago",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 98
+  },
+  {
+    "nl_input": "I want to add book as a cup to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "book",
+          "node_type": "cup"
+        }
+      ],
+      "response": "Created node 'book' of type 'cup'."
+    },
+    "category": "node_creation",
+    "id": 99
+  },
+  {
+    "nl_input": "Add robot1 in the lab with battery 10.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 100
+  },
+  {
+    "nl_input": "robot1 is a robot at corridor carrying a box.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "corridor"
+        },
+        {
+          "op": "create_node",
+          "name": "box",
+          "node_type": "box"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot1",
+          "target": "box"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 101
+  },
+  {
+    "nl_input": "Change the color of tiago to green.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "color",
+          "value": "green"
+        }
+      ],
+      "response": "Set color of tiago to green."
+    },
+    "category": "property_setting",
+    "id": 102
+  },
+  {
+    "nl_input": "What robots are in the system?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 103
+  },
+  {
+    "nl_input": "Register a new person called carlos in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "carlos",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'carlos' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 104
+  },
+  {
+    "nl_input": "Register a new tray called box in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "box",
+          "node_type": "tray"
+        }
+      ],
+      "response": "Created node 'box' of type 'tray'."
+    },
+    "category": "node_creation",
+    "id": 105
+  },
+  {
+    "nl_input": "I want to add book as a tool to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "book",
+          "node_type": "tool"
+        }
+      ],
+      "response": "Created node 'book' of type 'tool'."
+    },
+    "category": "node_creation",
+    "id": 106
+  },
+  {
+    "nl_input": "The robot pepper went to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        }
+      ],
+      "response": "pepper is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 107
+  },
+  {
+    "nl_input": "spot is near the bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "spot",
+          "target": "bedroom"
+        }
+      ],
+      "response": "spot is now near bedroom."
+    },
+    "category": "edge_creation",
+    "id": 108
+  },
+  {
+    "nl_input": "tray is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tray"
+        }
+      ],
+      "response": "Removed node 'tray'."
+    },
+    "category": "node_removal",
+    "id": 109
+  },
+  {
+    "nl_input": "Show me the relationships of ur5.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 110
+  },
+  {
+    "nl_input": "spot now has weight 1.2.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "weight",
+          "value": "1.2"
+        }
+      ],
+      "response": "Set weight of spot to 1.2."
+    },
+    "category": "property_setting",
+    "id": 111
+  },
+  {
+    "nl_input": "pepper is now at kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        }
+      ],
+      "response": "pepper is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 112
+  },
+  {
+    "nl_input": "Delete the node robot2.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "robot2"
+        }
+      ],
+      "response": "Removed node 'robot2'."
+    },
+    "category": "node_removal",
+    "id": 113
+  },
+  {
+    "nl_input": "Remove the connection between ur5 and bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'at' from ur5 to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 114
+  },
+  {
+    "nl_input": "ur5 is near the corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "ur5",
+          "target": "corridor"
+        }
+      ],
+      "response": "ur5 is now near corridor."
+    },
+    "category": "edge_creation",
+    "id": 115
+  },
+  {
+    "nl_input": "Move ur5 to office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "office"
+        }
+      ],
+      "response": "ur5 is now at office."
+    },
+    "category": "edge_creation",
+    "id": 116
+  },
+  {
+    "nl_input": "Where is spot?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 117
+  },
+  {
+    "nl_input": "Set robot2's status to idle.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "status",
+          "value": "idle"
+        }
+      ],
+      "response": "Set status of robot2 to idle."
+    },
+    "category": "property_setting",
+    "id": 118
+  },
+  {
+    "nl_input": "robot2 is a robot at warehouse carrying a book.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "warehouse"
+        },
+        {
+          "op": "create_node",
+          "name": "book",
+          "node_type": "book"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot2",
+          "target": "book"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 119
+  },
+  {
+    "nl_input": "Add a robot called robot1.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot1' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 120
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 121
+  },
+  {
+    "nl_input": "Is there a robot called cup?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 122
+  },
+  {
+    "nl_input": "Take charger out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "charger"
+        }
+      ],
+      "response": "Removed node 'charger'."
+    },
+    "category": "node_removal",
+    "id": 123
+  },
+  {
+    "nl_input": "spot is near the bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "spot",
+          "target": "bedroom"
+        }
+      ],
+      "response": "spot is now near bedroom."
+    },
+    "category": "edge_creation",
+    "id": 124
+  },
+  {
+    "nl_input": "Place spot at garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "garage"
+        }
+      ],
+      "response": "spot is now at garage."
+    },
+    "category": "edge_creation",
+    "id": 125
+  },
+  {
+    "nl_input": "What robots are in the system?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 126
+  },
+  {
+    "nl_input": "Create spot, place it at lab, and set its status to charging.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "status",
+          "value": "charging"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 127
+  },
+  {
+    "nl_input": "pepper is in the living_room.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "pepper",
+          "target": "living_room"
+        }
+      ],
+      "response": "pepper is now in living_room."
+    },
+    "category": "edge_creation",
+    "id": 128
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 129
+  },
+  {
+    "nl_input": "Create a node for carlos, it is a person.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "carlos",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'carlos' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 130
+  },
+  {
+    "nl_input": "Update pepper: color = white.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "color",
+          "value": "white"
+        }
+      ],
+      "response": "Set color of pepper to white."
+    },
+    "category": "property_setting",
+    "id": 131
+  },
+  {
+    "nl_input": "There is a location named office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "office",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'office' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 132
+  },
+  {
+    "nl_input": "Is there a robot called pepper?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 133
+  },
+  {
+    "nl_input": "robot2 is no longer at office.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "office"
+        }
+      ],
+      "response": "Removed edge 'at' from robot2 to office."
+    },
+    "category": "edge_removal",
+    "id": 134
+  },
+  {
+    "nl_input": "ur5 is a robot at garage carrying a box.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "garage"
+        },
+        {
+          "op": "create_node",
+          "name": "box",
+          "node_type": "box"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "ur5",
+          "target": "box"
+        }
+      ],
+      "response": "Done. ur5 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 135
+  },
+  {
+    "nl_input": "Update ur5: speed = 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set speed of ur5 to 0.5."
+    },
+    "category": "property_setting",
+    "id": 136
+  },
+  {
+    "nl_input": "Remove the connection between robot1 and warehouse.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "warehouse"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to warehouse."
+    },
+    "category": "edge_removal",
+    "id": 137
+  },
+  {
+    "nl_input": "Register tiago at lab with speed 1.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 138
+  },
+  {
+    "nl_input": "Place spot at corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "corridor"
+        }
+      ],
+      "response": "spot is now at corridor."
+    },
+    "category": "edge_creation",
+    "id": 139
+  },
+  {
+    "nl_input": "tiago is no longer at kitchen.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "kitchen"
+        }
+      ],
+      "response": "Removed edge 'at' from tiago to kitchen."
+    },
+    "category": "edge_removal",
+    "id": 140
+  },
+  {
+    "nl_input": "Add pepper in the kitchen with battery 50.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "pepper",
+          "target": "kitchen"
+        },
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Done. pepper registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 141
+  },
+  {
+    "nl_input": "Add spot in the corridor with battery 50.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "corridor"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 142
+  },
+  {
+    "nl_input": "Register a new box called bottle in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bottle",
+          "node_type": "box"
+        }
+      ],
+      "response": "Created node 'bottle' of type 'box'."
+    },
+    "category": "node_creation",
+    "id": 143
+  },
+  {
+    "nl_input": "Add spot in the garage with battery 10.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 144
+  },
+  {
+    "nl_input": "book is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "book"
+        }
+      ],
+      "response": "Removed node 'book'."
+    },
+    "category": "node_removal",
+    "id": 145
+  },
+  {
+    "nl_input": "robot1 is no longer at office.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "office"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to office."
+    },
+    "category": "edge_removal",
+    "id": 146
+  },
+  {
+    "nl_input": "Register robot1 at garage with speed 1.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 147
+  },
+  {
+    "nl_input": "What robots are in the system?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 148
+  },
+  {
+    "nl_input": "What is connected to pepper?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 149
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 150
+  },
+  {
+    "nl_input": "Create a node for warehouse, it is a location.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "warehouse",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'warehouse' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 151
+  },
+  {
+    "nl_input": "Update robot2: speed = 2.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Set speed of robot2 to 2.0."
+    },
+    "category": "property_setting",
+    "id": 152
+  },
+  {
+    "nl_input": "pepper is a robot at kitchen carrying a charger.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        },
+        {
+          "op": "create_node",
+          "name": "charger",
+          "node_type": "charger"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "pepper",
+          "target": "charger"
+        }
+      ],
+      "response": "Done. pepper registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 153
+  },
+  {
+    "nl_input": "Add a robot called tiago.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'tiago' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 154
+  },
+  {
+    "nl_input": "What robots are in the system?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 155
+  },
+  {
+    "nl_input": "There is a cup named plate.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "plate",
+          "node_type": "cup"
+        }
+      ],
+      "response": "Created node 'plate' of type 'cup'."
+    },
+    "category": "node_creation",
+    "id": 156
+  },
+  {
+    "nl_input": "Change the color of pepper to blue.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "color",
+          "value": "blue"
+        }
+      ],
+      "response": "Set color of pepper to blue."
+    },
+    "category": "property_setting",
+    "id": 157
+  },
+  {
+    "nl_input": "Register a new cup called bottle in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bottle",
+          "node_type": "cup"
+        }
+      ],
+      "response": "Created node 'bottle' of type 'cup'."
+    },
+    "category": "node_creation",
+    "id": 158
+  },
+  {
+    "nl_input": "pepper left bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'at' from pepper to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 159
+  },
+  {
+    "nl_input": "Update ur5: weight = 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "weight",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set weight of ur5 to 0.5."
+    },
+    "category": "property_setting",
+    "id": 160
+  },
+  {
+    "nl_input": "ur5 is not in kitchen anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "ur5",
+          "target": "kitchen"
+        }
+      ],
+      "response": "Removed edge 'in' from ur5 to kitchen."
+    },
+    "category": "edge_removal",
+    "id": 161
+  },
+  {
+    "nl_input": "There is a charger named book.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "book",
+          "node_type": "charger"
+        }
+      ],
+      "response": "Created node 'book' of type 'charger'."
+    },
+    "category": "node_creation",
+    "id": 162
+  },
+  {
+    "nl_input": "Place pepper near corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "pepper",
+          "target": "corridor"
+        }
+      ],
+      "response": "pepper is now near corridor."
+    },
+    "category": "edge_creation",
+    "id": 163
+  },
+  {
+    "nl_input": "Register a new person called bob in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bob",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'bob' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 164
+  },
+  {
+    "nl_input": "Take tool out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tool"
+        }
+      ],
+      "response": "Removed node 'tool'."
+    },
+    "category": "node_removal",
+    "id": 165
+  },
+  {
+    "nl_input": "Tell me about charger.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 166
+  },
+  {
+    "nl_input": "Register spot at garage with speed 2.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 167
+  },
+  {
+    "nl_input": "What is robot2 doing?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 168
+  },
+  {
+    "nl_input": "robot2 is at the warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "warehouse"
+        }
+      ],
+      "response": "robot2 is now at warehouse."
+    },
+    "category": "edge_creation",
+    "id": 169
+  },
+  {
+    "nl_input": "Change the color of pepper to red.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "color",
+          "value": "red"
+        }
+      ],
+      "response": "Set color of pepper to red."
+    },
+    "category": "property_setting",
+    "id": 170
+  },
+  {
+    "nl_input": "pepper is not near lab anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "near",
+          "source": "pepper",
+          "target": "lab"
+        }
+      ],
+      "response": "Removed edge 'near' from pepper to lab."
+    },
+    "category": "edge_removal",
+    "id": 171
+  },
+  {
+    "nl_input": "The color of robot1 is green.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "color",
+          "value": "green"
+        }
+      ],
+      "response": "Set color of robot1 to green."
+    },
+    "category": "property_setting",
+    "id": 172
+  },
+  {
+    "nl_input": "There is a book named plate.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "plate",
+          "node_type": "book"
+        }
+      ],
+      "response": "Created node 'plate' of type 'book'."
+    },
+    "category": "node_creation",
+    "id": 173
+  },
+  {
+    "nl_input": "Add a robot called robot2.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot2' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 174
+  },
+  {
+    "nl_input": "Get rid of tiago.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tiago"
+        }
+      ],
+      "response": "Removed node 'tiago'."
+    },
+    "category": "node_removal",
+    "id": 175
+  },
+  {
+    "nl_input": "The robot spot went to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "kitchen"
+        }
+      ],
+      "response": "spot is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 176
+  },
+  {
+    "nl_input": "Delete the node tiago.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tiago"
+        }
+      ],
+      "response": "Removed node 'tiago'."
+    },
+    "category": "node_removal",
+    "id": 177
+  },
+  {
+    "nl_input": "robot1 is a robot at garage carrying a bottle.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        },
+        {
+          "op": "create_node",
+          "name": "bottle",
+          "node_type": "bottle"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot1",
+          "target": "bottle"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 178
+  },
+  {
+    "nl_input": "Set spot's battery to 10.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Set battery of spot to 10."
+    },
+    "category": "property_setting",
+    "id": 179
+  },
+  {
+    "nl_input": "tiago is a robot at lab carrying a cup.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "lab"
+        },
+        {
+          "op": "create_node",
+          "name": "cup",
+          "node_type": "cup"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "tiago",
+          "target": "cup"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 180
+  },
+  {
+    "nl_input": "Is there a robot called plate?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 181
+  },
+  {
+    "nl_input": "There is a location named warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "warehouse",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'warehouse' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 182
+  },
+  {
+    "nl_input": "The speed of tiago is 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set speed of tiago to 0.5."
+    },
+    "category": "property_setting",
+    "id": 183
+  },
+  {
+    "nl_input": "Add spot in the garage with battery 10.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 184
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 185
+  },
+  {
+    "nl_input": "Move ur5 to garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "garage"
+        }
+      ],
+      "response": "ur5 is now at garage."
+    },
+    "category": "edge_creation",
+    "id": 186
+  },
+  {
+    "nl_input": "What type is cup?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 187
+  },
+  {
+    "nl_input": "plate is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "plate"
+        }
+      ],
+      "response": "Removed node 'plate'."
+    },
+    "category": "node_removal",
+    "id": 188
+  },
+  {
+    "nl_input": "Add pepper in the kitchen with battery 80.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "pepper",
+          "target": "kitchen"
+        },
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "battery",
+          "value": "80"
+        }
+      ],
+      "response": "Done. pepper registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 189
+  },
+  {
+    "nl_input": "Update ur5: color = green.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "color",
+          "value": "green"
+        }
+      ],
+      "response": "Set color of ur5 to green."
+    },
+    "category": "property_setting",
+    "id": 190
+  },
+  {
+    "nl_input": "Remove pepper from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "pepper"
+        }
+      ],
+      "response": "Removed node 'pepper'."
+    },
+    "category": "node_removal",
+    "id": 191
+  },
+  {
+    "nl_input": "What type is pepper?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 192
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 193
+  },
+  {
+    "nl_input": "What does spot hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 194
+  },
+  {
+    "nl_input": "Remove box from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "box"
+        }
+      ],
+      "response": "Removed node 'box'."
+    },
+    "category": "node_removal",
+    "id": 195
+  },
+  {
+    "nl_input": "There is a location named corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "corridor",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'corridor' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 196
+  },
+  {
+    "nl_input": "Show me the relationships of robot1.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 197
+  },
+  {
+    "nl_input": "The robot tiago went to warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "warehouse"
+        }
+      ],
+      "response": "tiago is now at warehouse."
+    },
+    "category": "edge_creation",
+    "id": 198
+  },
+  {
+    "nl_input": "What is connected to bottle?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 199
+  },
+  {
+    "nl_input": "Create ur5, place it at corridor, and set its status to charging.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "corridor"
+        },
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "status",
+          "value": "charging"
+        }
+      ],
+      "response": "Done. ur5 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 200
+  },
+  {
+    "nl_input": "Where is robot2?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 201
+  },
+  {
+    "nl_input": "Take spot out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "spot"
+        }
+      ],
+      "response": "Removed node 'spot'."
+    },
+    "category": "node_removal",
+    "id": 202
+  },
+  {
+    "nl_input": "What is robot1 doing?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 203
+  },
+  {
+    "nl_input": "Create a node for box, it is a tray.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "box",
+          "node_type": "tray"
+        }
+      ],
+      "response": "Created node 'box' of type 'tray'."
+    },
+    "category": "node_creation",
+    "id": 204
+  },
+  {
+    "nl_input": "Register spot at living_room with speed 2.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "living_room"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 205
+  },
+  {
+    "nl_input": "Change the speed of robot2 to 1.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "speed",
+          "value": "1.0"
+        }
+      ],
+      "response": "Set speed of robot2 to 1.0."
+    },
+    "category": "property_setting",
+    "id": 206
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 207
+  },
+  {
+    "nl_input": "tiago now has status charging.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "status",
+          "value": "charging"
+        }
+      ],
+      "response": "Set status of tiago to charging."
+    },
+    "category": "property_setting",
+    "id": 208
+  },
+  {
+    "nl_input": "robot1 is no longer at living_room.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "living_room"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to living_room."
+    },
+    "category": "edge_removal",
+    "id": 209
+  },
+  {
+    "nl_input": "Show me the relationships of ur5.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 210
+  },
+  {
+    "nl_input": "ur5 is in the garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "ur5",
+          "target": "garage"
+        }
+      ],
+      "response": "ur5 is now in garage."
+    },
+    "category": "edge_creation",
+    "id": 211
+  },
+  {
+    "nl_input": "The robot robot2 went to warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "warehouse"
+        }
+      ],
+      "response": "robot2 is now at warehouse."
+    },
+    "category": "edge_creation",
+    "id": 212
+  },
+  {
+    "nl_input": "Remove the connection between pepper and garage.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'at' from pepper to garage."
+    },
+    "category": "edge_removal",
+    "id": 213
+  },
+  {
+    "nl_input": "Get rid of cup.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "cup"
+        }
+      ],
+      "response": "Removed node 'cup'."
+    },
+    "category": "node_removal",
+    "id": 214
+  },
+  {
+    "nl_input": "tiago is in the living_room.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "tiago",
+          "target": "living_room"
+        }
+      ],
+      "response": "tiago is now in living_room."
+    },
+    "category": "edge_creation",
+    "id": 215
+  },
+  {
+    "nl_input": "There is a person named alice.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "alice",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'alice' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 216
+  },
+  {
+    "nl_input": "What type is robot1?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 217
+  },
+  {
+    "nl_input": "Move ur5 to office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "office"
+        }
+      ],
+      "response": "ur5 is now at office."
+    },
+    "category": "edge_creation",
+    "id": 218
+  },
+  {
+    "nl_input": "Place robot1 near warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "robot1",
+          "target": "warehouse"
+        }
+      ],
+      "response": "robot1 is now near warehouse."
+    },
+    "category": "edge_creation",
+    "id": 219
+  },
+  {
+    "nl_input": "Move tiago to garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "garage"
+        }
+      ],
+      "response": "tiago is now at garage."
+    },
+    "category": "edge_creation",
+    "id": 220
+  },
+  {
+    "nl_input": "Is there a robot called book?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 221
+  },
+  {
+    "nl_input": "Show me the relationships of robot2.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 222
+  },
+  {
+    "nl_input": "Where is ur5?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 223
+  },
+  {
+    "nl_input": "I want to add book as a tray to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "book",
+          "node_type": "tray"
+        }
+      ],
+      "response": "Created node 'book' of type 'tray'."
+    },
+    "category": "node_creation",
+    "id": 224
+  },
+  {
+    "nl_input": "Move tiago to corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "corridor"
+        }
+      ],
+      "response": "tiago is now at corridor."
+    },
+    "category": "edge_creation",
+    "id": 225
+  },
+  {
+    "nl_input": "I want to add diana as a person to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "diana",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'diana' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 226
+  },
+  {
+    "nl_input": "Delete the node plate.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "plate"
+        }
+      ],
+      "response": "Removed node 'plate'."
+    },
+    "category": "node_removal",
+    "id": 227
+  },
+  {
+    "nl_input": "robot2 left office.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "office"
+        }
+      ],
+      "response": "Removed edge 'at' from robot2 to office."
+    },
+    "category": "edge_removal",
+    "id": 228
+  },
+  {
+    "nl_input": "robot2 now has color white.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "color",
+          "value": "white"
+        }
+      ],
+      "response": "Set color of robot2 to white."
+    },
+    "category": "property_setting",
+    "id": 229
+  },
+  {
+    "nl_input": "Is there a robot called cup?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 230
+  },
+  {
+    "nl_input": "What robots are in the system?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 231
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 232
+  },
+  {
+    "nl_input": "Move tiago to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "kitchen"
+        }
+      ],
+      "response": "tiago is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 233
+  },
+  {
+    "nl_input": "Change the color of ur5 to blue.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "color",
+          "value": "blue"
+        }
+      ],
+      "response": "Set color of ur5 to blue."
+    },
+    "category": "property_setting",
+    "id": 234
+  },
+  {
+    "nl_input": "robot2 now has status idle.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "status",
+          "value": "idle"
+        }
+      ],
+      "response": "Set status of robot2 to idle."
+    },
+    "category": "property_setting",
+    "id": 235
+  },
+  {
+    "nl_input": "Register spot at kitchen with speed 1.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "kitchen"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 236
+  },
+  {
+    "nl_input": "Create robot1, place it at warehouse, and set its status to busy.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "warehouse"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "status",
+          "value": "busy"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 237
+  },
+  {
+    "nl_input": "Add a robot called robot2.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot2' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 238
+  },
+  {
+    "nl_input": "Take tiago out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tiago"
+        }
+      ],
+      "response": "Removed node 'tiago'."
+    },
+    "category": "node_removal",
+    "id": 239
+  },
+  {
+    "nl_input": "Move spot to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "kitchen"
+        }
+      ],
+      "response": "spot is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 240
+  },
+  {
+    "nl_input": "Add a robot called robot2.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot2' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 241
+  },
+  {
+    "nl_input": "Remove the connection between tiago and living_room.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "living_room"
+        }
+      ],
+      "response": "Removed edge 'at' from tiago to living_room."
+    },
+    "category": "edge_removal",
+    "id": 242
+  },
+  {
+    "nl_input": "ur5 is not in kitchen anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "ur5",
+          "target": "kitchen"
+        }
+      ],
+      "response": "Removed edge 'in' from ur5 to kitchen."
+    },
+    "category": "edge_removal",
+    "id": 243
+  },
+  {
+    "nl_input": "Move pepper to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        }
+      ],
+      "response": "pepper is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 244
+  },
+  {
+    "nl_input": "Delete the 'near' edge from spot to garage.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "near",
+          "source": "spot",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'near' from spot to garage."
+    },
+    "category": "edge_removal",
+    "id": 245
+  },
+  {
+    "nl_input": "I want to add kitchen as a location to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "kitchen",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'kitchen' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 246
+  },
+  {
+    "nl_input": "Create pepper, place it at office, and set its status to moving.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "office"
+        },
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "status",
+          "value": "moving"
+        }
+      ],
+      "response": "Done. pepper registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 247
+  },
+  {
+    "nl_input": "Update ur5: weight = 3.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "weight",
+          "value": "3.0"
+        }
+      ],
+      "response": "Set weight of ur5 to 3.0."
+    },
+    "category": "property_setting",
+    "id": 248
+  },
+  {
+    "nl_input": "What type is tool?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 249
+  },
+  {
+    "nl_input": "What does spot hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 250
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 251
+  },
+  {
+    "nl_input": "Delete the 'in' edge from robot1 to corridor.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "corridor"
+        }
+      ],
+      "response": "Removed edge 'in' from robot1 to corridor."
+    },
+    "category": "edge_removal",
+    "id": 252
+  },
+  {
+    "nl_input": "Take bottle out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "bottle"
+        }
+      ],
+      "response": "Removed node 'bottle'."
+    },
+    "category": "node_removal",
+    "id": 253
+  },
+  {
+    "nl_input": "Register tiago at office with speed 1.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "office"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "speed",
+          "value": "1.0"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 254
+  },
+  {
+    "nl_input": "Take tray out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tray"
+        }
+      ],
+      "response": "Removed node 'tray'."
+    },
+    "category": "node_removal",
+    "id": 255
+  },
+  {
+    "nl_input": "The battery of tiago is 10.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Set battery of tiago to 10."
+    },
+    "category": "property_setting",
+    "id": 256
+  },
+  {
+    "nl_input": "Delete the 'near' edge from ur5 to bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "near",
+          "source": "ur5",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'near' from ur5 to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 257
+  },
+  {
+    "nl_input": "Add spot in the office with battery 80.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "office"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "battery",
+          "value": "80"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 258
+  },
+  {
+    "nl_input": "What is connected to bottle?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 259
+  },
+  {
+    "nl_input": "Move ur5 to garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "garage"
+        }
+      ],
+      "response": "ur5 is now at garage."
+    },
+    "category": "edge_creation",
+    "id": 260
+  },
+  {
+    "nl_input": "Is pepper in the office?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 261
+  },
+  {
+    "nl_input": "What does robot2 hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 262
+  },
+  {
+    "nl_input": "Register a new location called office in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "office",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'office' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 263
+  },
+  {
+    "nl_input": "Get rid of ur5.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "ur5"
+        }
+      ],
+      "response": "Removed node 'ur5'."
+    },
+    "category": "node_removal",
+    "id": 264
+  },
+  {
+    "nl_input": "ur5 is no longer at corridor.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "corridor"
+        }
+      ],
+      "response": "Removed edge 'at' from ur5 to corridor."
+    },
+    "category": "edge_removal",
+    "id": 265
+  },
+  {
+    "nl_input": "Register a new location called lab in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "lab",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'lab' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 266
+  },
+  {
+    "nl_input": "Change the weight of tiago to 5.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "weight",
+          "value": "5.0"
+        }
+      ],
+      "response": "Set weight of tiago to 5.0."
+    },
+    "category": "property_setting",
+    "id": 267
+  },
+  {
+    "nl_input": "The battery of robot1 is 50.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Set battery of robot1 to 50."
+    },
+    "category": "property_setting",
+    "id": 268
+  },
+  {
+    "nl_input": "Add a robot called robot2.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot2' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 269
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 270
+  },
+  {
+    "nl_input": "Show me the relationships of pepper.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 271
+  },
+  {
+    "nl_input": "Is there a robot called bottle?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 272
+  },
+  {
+    "nl_input": "Is there a robot called book?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 273
+  },
+  {
+    "nl_input": "Add tiago in the kitchen with battery 20.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "tiago",
+          "target": "kitchen"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "battery",
+          "value": "20"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 274
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 275
+  },
+  {
+    "nl_input": "Register spot at corridor with speed 1.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "corridor"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 276
+  },
+  {
+    "nl_input": "The speed of ur5 is 2.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Set speed of ur5 to 2.0."
+    },
+    "category": "property_setting",
+    "id": 277
+  },
+  {
+    "nl_input": "Where is ur5?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 278
+  },
+  {
+    "nl_input": "Move robot1 to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "kitchen"
+        }
+      ],
+      "response": "robot1 is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 279
+  },
+  {
+    "nl_input": "plate is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "plate"
+        }
+      ],
+      "response": "Removed node 'plate'."
+    },
+    "category": "node_removal",
+    "id": 280
+  },
+  {
+    "nl_input": "Take tray out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tray"
+        }
+      ],
+      "response": "Removed node 'tray'."
+    },
+    "category": "node_removal",
+    "id": 281
+  },
+  {
+    "nl_input": "Create a node for kitchen, it is a location.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "kitchen",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'kitchen' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 282
+  },
+  {
+    "nl_input": "Take spot out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "spot"
+        }
+      ],
+      "response": "Removed node 'spot'."
+    },
+    "category": "node_removal",
+    "id": 283
+  },
+  {
+    "nl_input": "robot2 is now at office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "office"
+        }
+      ],
+      "response": "robot2 is now at office."
+    },
+    "category": "edge_creation",
+    "id": 284
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 285
+  },
+  {
+    "nl_input": "Register ur5 at bedroom with speed 2.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "bedroom"
+        },
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Done. ur5 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 286
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 287
+  },
+  {
+    "nl_input": "ur5 now has speed 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set speed of ur5 to 0.5."
+    },
+    "category": "property_setting",
+    "id": 288
+  },
+  {
+    "nl_input": "Register a new person called diana in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "diana",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'diana' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 289
+  },
+  {
+    "nl_input": "There is a tool named charger.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "charger",
+          "node_type": "tool"
+        }
+      ],
+      "response": "Created node 'charger' of type 'tool'."
+    },
+    "category": "node_creation",
+    "id": 290
+  },
+  {
+    "nl_input": "robot2 is not in garage anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "robot2",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'in' from robot2 to garage."
+    },
+    "category": "edge_removal",
+    "id": 291
+  },
+  {
+    "nl_input": "Create a node for garage, it is a location.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "garage",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'garage' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 292
+  },
+  {
+    "nl_input": "Tell me about tool.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 293
+  },
+  {
+    "nl_input": "Where is robot2?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 294
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 295
+  },
+  {
+    "nl_input": "Move ur5 to lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "lab"
+        }
+      ],
+      "response": "ur5 is now at lab."
+    },
+    "category": "edge_creation",
+    "id": 296
+  },
+  {
+    "nl_input": "Remove cup from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "cup"
+        }
+      ],
+      "response": "Removed node 'cup'."
+    },
+    "category": "node_removal",
+    "id": 297
+  },
+  {
+    "nl_input": "Register pepper at bedroom with speed 0.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "bedroom"
+        },
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Done. pepper registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 298
+  },
+  {
+    "nl_input": "What is connected to robot2?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 299
+  },
+  {
+    "nl_input": "Update robot1: status = moving.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "status",
+          "value": "moving"
+        }
+      ],
+      "response": "Set status of robot1 to moving."
+    },
+    "category": "property_setting",
+    "id": 300
+  },
+  {
+    "nl_input": "Update ur5: weight = 3.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "weight",
+          "value": "3.0"
+        }
+      ],
+      "response": "Set weight of ur5 to 3.0."
+    },
+    "category": "property_setting",
+    "id": 301
+  },
+  {
+    "nl_input": "robot2 is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "robot2"
+        }
+      ],
+      "response": "Removed node 'robot2'."
+    },
+    "category": "node_removal",
+    "id": 302
+  },
+  {
+    "nl_input": "tiago is a robot at office carrying a box.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "office"
+        },
+        {
+          "op": "create_node",
+          "name": "box",
+          "node_type": "box"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "tiago",
+          "target": "box"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 303
+  },
+  {
+    "nl_input": "Add robot1 in the lab with battery 50.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 304
+  },
+  {
+    "nl_input": "Add a robot called robot2.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot2' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 305
+  },
+  {
+    "nl_input": "Move pepper to bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "bedroom"
+        }
+      ],
+      "response": "pepper is now at bedroom."
+    },
+    "category": "edge_creation",
+    "id": 306
+  },
+  {
+    "nl_input": "Which robots are in the warehouse?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 307
+  },
+  {
+    "nl_input": "Remove book from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "book"
+        }
+      ],
+      "response": "Removed node 'book'."
+    },
+    "category": "node_removal",
+    "id": 308
+  },
+  {
+    "nl_input": "Delete the node ur5.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "ur5"
+        }
+      ],
+      "response": "Removed node 'ur5'."
+    },
+    "category": "node_removal",
+    "id": 309
+  },
+  {
+    "nl_input": "Update robot2: status = busy.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "status",
+          "value": "busy"
+        }
+      ],
+      "response": "Set status of robot2 to busy."
+    },
+    "category": "property_setting",
+    "id": 310
+  },
+  {
+    "nl_input": "Remove the connection between spot and garage.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'at' from spot to garage."
+    },
+    "category": "edge_removal",
+    "id": 311
+  },
+  {
+    "nl_input": "spot is now at warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "warehouse"
+        }
+      ],
+      "response": "spot is now at warehouse."
+    },
+    "category": "edge_creation",
+    "id": 312
+  },
+  {
+    "nl_input": "Is robot2 in the living_room?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 313
+  },
+  {
+    "nl_input": "Set robot1's weight to 1.2.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "weight",
+          "value": "1.2"
+        }
+      ],
+      "response": "Set weight of robot1 to 1.2."
+    },
+    "category": "property_setting",
+    "id": 314
+  },
+  {
+    "nl_input": "ur5 is now near garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "ur5",
+          "target": "garage"
+        }
+      ],
+      "response": "ur5 is now near garage."
+    },
+    "category": "edge_creation",
+    "id": 315
+  },
+  {
+    "nl_input": "Delete the node robot2.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "robot2"
+        }
+      ],
+      "response": "Removed node 'robot2'."
+    },
+    "category": "node_removal",
+    "id": 316
+  },
+  {
+    "nl_input": "Show me the relationships of tiago.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 317
+  },
+  {
+    "nl_input": "Register a new location called corridor in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "corridor",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'corridor' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 318
+  },
+  {
+    "nl_input": "The weight of robot1 is 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "weight",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set weight of robot1 to 0.5."
+    },
+    "category": "property_setting",
+    "id": 319
+  },
+  {
+    "nl_input": "Remove the connection between robot1 and office.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "office"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to office."
+    },
+    "category": "edge_removal",
+    "id": 320
+  },
+  {
+    "nl_input": "Where is pepper?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 321
+  },
+  {
+    "nl_input": "Set robot2's weight to 3.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "weight",
+          "value": "3.0"
+        }
+      ],
+      "response": "Set weight of robot2 to 3.0."
+    },
+    "category": "property_setting",
+    "id": 322
+  },
+  {
+    "nl_input": "Change the color of robot2 to white.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "color",
+          "value": "white"
+        }
+      ],
+      "response": "Set color of robot2 to white."
+    },
+    "category": "property_setting",
+    "id": 323
+  },
+  {
+    "nl_input": "Remove the connection between pepper and bedroom.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'at' from pepper to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 324
+  },
+  {
+    "nl_input": "There is a person named diana.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "diana",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'diana' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 325
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 326
+  },
+  {
+    "nl_input": "There is a box named tray.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tray",
+          "node_type": "box"
+        }
+      ],
+      "response": "Created node 'tray' of type 'box'."
+    },
+    "category": "node_creation",
+    "id": 327
+  },
+  {
+    "nl_input": "Add a robot called robot1.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot1' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 328
+  },
+  {
+    "nl_input": "Where is spot?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 329
+  },
+  {
+    "nl_input": "ur5 is now in corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "ur5",
+          "target": "corridor"
+        }
+      ],
+      "response": "ur5 is now in corridor."
+    },
+    "category": "edge_creation",
+    "id": 330
+  },
+  {
+    "nl_input": "Is there a robot called bottle?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 331
+  },
+  {
+    "nl_input": "Which robots are in the living_room?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 332
+  },
+  {
+    "nl_input": "Tell me about tray.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 333
+  },
+  {
+    "nl_input": "tiago is near the garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "tiago",
+          "target": "garage"
+        }
+      ],
+      "response": "tiago is now near garage."
+    },
+    "category": "edge_creation",
+    "id": 334
+  },
+  {
+    "nl_input": "tool is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tool"
+        }
+      ],
+      "response": "Removed node 'tool'."
+    },
+    "category": "node_removal",
+    "id": 335
+  },
+  {
+    "nl_input": "There is a location named corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "corridor",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'corridor' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 336
+  },
+  {
+    "nl_input": "Change the battery of robot2 to 50.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Set battery of robot2 to 50."
+    },
+    "category": "property_setting",
+    "id": 337
+  },
+  {
+    "nl_input": "What does robot2 hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 338
+  },
+  {
+    "nl_input": "pepper is now in kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "pepper",
+          "target": "kitchen"
+        }
+      ],
+      "response": "pepper is now in kitchen."
+    },
+    "category": "edge_creation",
+    "id": 339
+  },
+  {
+    "nl_input": "Take tool out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tool"
+        }
+      ],
+      "response": "Removed node 'tool'."
+    },
+    "category": "node_removal",
+    "id": 340
+  },
+  {
+    "nl_input": "Is there a robot called tiago?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 341
+  },
+  {
+    "nl_input": "Tell me about robot1.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 342
+  },
+  {
+    "nl_input": "Update robot1: battery = 10.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Set battery of robot1 to 10."
+    },
+    "category": "property_setting",
+    "id": 343
+  },
+  {
+    "nl_input": "I want to add tool as a bottle to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tool",
+          "node_type": "bottle"
+        }
+      ],
+      "response": "Created node 'tool' of type 'bottle'."
+    },
+    "category": "node_creation",
+    "id": 344
+  },
+  {
+    "nl_input": "Add a robot called pepper.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'pepper' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 345
+  },
+  {
+    "nl_input": "robot1 is not at bedroom anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "bedroom"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to bedroom."
+    },
+    "category": "edge_removal",
+    "id": 346
+  },
+  {
+    "nl_input": "Change the battery of robot2 to 50.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Set battery of robot2 to 50."
+    },
+    "category": "property_setting",
+    "id": 347
+  },
+  {
+    "nl_input": "spot is not in garage anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'in' from spot to garage."
+    },
+    "category": "edge_removal",
+    "id": 348
+  },
+  {
+    "nl_input": "Tell me about plate.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 349
+  },
+  {
+    "nl_input": "Remove robot1 from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "robot1"
+        }
+      ],
+      "response": "Removed node 'robot1'."
+    },
+    "category": "node_removal",
+    "id": 350
+  },
+  {
+    "nl_input": "Tell me about robot1.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 351
+  },
+  {
+    "nl_input": "Get rid of tray.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tray"
+        }
+      ],
+      "response": "Removed node 'tray'."
+    },
+    "category": "node_removal",
+    "id": 352
+  },
+  {
+    "nl_input": "Place robot2 at office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "office"
+        }
+      ],
+      "response": "robot2 is now at office."
+    },
+    "category": "edge_creation",
+    "id": 353
+  },
+  {
+    "nl_input": "Delete the node plate.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "plate"
+        }
+      ],
+      "response": "Removed node 'plate'."
+    },
+    "category": "node_removal",
+    "id": 354
+  },
+  {
+    "nl_input": "robot2 left kitchen.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "kitchen"
+        }
+      ],
+      "response": "Removed edge 'at' from robot2 to kitchen."
+    },
+    "category": "edge_removal",
+    "id": 355
+  },
+  {
+    "nl_input": "The weight of spot is 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "weight",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set weight of spot to 0.5."
+    },
+    "category": "property_setting",
+    "id": 356
+  },
+  {
+    "nl_input": "Place pepper near office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "pepper",
+          "target": "office"
+        }
+      ],
+      "response": "pepper is now near office."
+    },
+    "category": "edge_creation",
+    "id": 357
+  },
+  {
+    "nl_input": "pepper is now at kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        }
+      ],
+      "response": "pepper is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 358
+  },
+  {
+    "nl_input": "Show me all objects in the graph.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 359
+  },
+  {
+    "nl_input": "What does tiago hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 360
+  },
+  {
+    "nl_input": "Set ur5's weight to 3.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "weight",
+          "value": "3.0"
+        }
+      ],
+      "response": "Set weight of ur5 to 3.0."
+    },
+    "category": "property_setting",
+    "id": 361
+  },
+  {
+    "nl_input": "spot is no longer at office.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "office"
+        }
+      ],
+      "response": "Removed edge 'at' from spot to office."
+    },
+    "category": "edge_removal",
+    "id": 362
+  },
+  {
+    "nl_input": "There is a person named diana.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "diana",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'diana' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 363
+  },
+  {
+    "nl_input": "I want to add diana as a person to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "diana",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'diana' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 364
+  },
+  {
+    "nl_input": "Add a robot called robot1.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot1' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 365
+  },
+  {
+    "nl_input": "The robot ur5 went to living_room.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "living_room"
+        }
+      ],
+      "response": "ur5 is now at living_room."
+    },
+    "category": "edge_creation",
+    "id": 366
+  },
+  {
+    "nl_input": "robot1 is a robot at corridor carrying a tool.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "corridor"
+        },
+        {
+          "op": "create_node",
+          "name": "tool",
+          "node_type": "tool"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot1",
+          "target": "tool"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 367
+  },
+  {
+    "nl_input": "Move ur5 to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "kitchen"
+        }
+      ],
+      "response": "ur5 is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 368
+  },
+  {
+    "nl_input": "I want to add corridor as a location to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "corridor",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'corridor' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 369
+  },
+  {
+    "nl_input": "robot1 is a robot at garage carrying a tool.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        },
+        {
+          "op": "create_node",
+          "name": "tool",
+          "node_type": "tool"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot1",
+          "target": "tool"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 370
+  },
+  {
+    "nl_input": "ur5 is now near office.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "ur5",
+          "target": "office"
+        }
+      ],
+      "response": "ur5 is now near office."
+    },
+    "category": "edge_creation",
+    "id": 371
+  },
+  {
+    "nl_input": "Get rid of tool.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tool"
+        }
+      ],
+      "response": "Removed node 'tool'."
+    },
+    "category": "node_removal",
+    "id": 372
+  },
+  {
+    "nl_input": "Add a robot called spot.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'spot' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 373
+  },
+  {
+    "nl_input": "Show me the relationships of spot.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 374
+  },
+  {
+    "nl_input": "What type is bottle?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 375
+  },
+  {
+    "nl_input": "pepper now has speed 1.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Set speed of pepper to 1.5."
+    },
+    "category": "property_setting",
+    "id": 376
+  },
+  {
+    "nl_input": "Register robot1 at lab with speed 1.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "speed",
+          "value": "1.0"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 377
+  },
+  {
+    "nl_input": "Change the battery of robot1 to 20.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "battery",
+          "value": "20"
+        }
+      ],
+      "response": "Set battery of robot1 to 20."
+    },
+    "category": "property_setting",
+    "id": 378
+  },
+  {
+    "nl_input": "Add tiago in the corridor with battery 10.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "tiago",
+          "target": "corridor"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 379
+  },
+  {
+    "nl_input": "Take spot out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "spot"
+        }
+      ],
+      "response": "Removed node 'spot'."
+    },
+    "category": "node_removal",
+    "id": 380
+  },
+  {
+    "nl_input": "robot2 now has speed 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set speed of robot2 to 0.5."
+    },
+    "category": "property_setting",
+    "id": 381
+  },
+  {
+    "nl_input": "Create spot, place it at office, and set its status to busy.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "office"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "status",
+          "value": "busy"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 382
+  },
+  {
+    "nl_input": "Set tiago's battery to 20.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "battery",
+          "value": "20"
+        }
+      ],
+      "response": "Set battery of tiago to 20."
+    },
+    "category": "property_setting",
+    "id": 383
+  },
+  {
+    "nl_input": "Create a node for garage, it is a location.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "garage",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'garage' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 384
+  },
+  {
+    "nl_input": "What is connected to pepper?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 385
+  },
+  {
+    "nl_input": "Set robot1's weight to 3.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "weight",
+          "value": "3.0"
+        }
+      ],
+      "response": "Set weight of robot1 to 3.0."
+    },
+    "category": "property_setting",
+    "id": 386
+  },
+  {
+    "nl_input": "robot1 is near the bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "robot1",
+          "target": "bedroom"
+        }
+      ],
+      "response": "robot1 is now near bedroom."
+    },
+    "category": "edge_creation",
+    "id": 387
+  },
+  {
+    "nl_input": "Tell me about tiago.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 388
+  },
+  {
+    "nl_input": "Remove the connection between robot1 and warehouse.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "warehouse"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to warehouse."
+    },
+    "category": "edge_removal",
+    "id": 389
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 390
+  },
+  {
+    "nl_input": "What type is tray?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 391
+  },
+  {
+    "nl_input": "The robot pepper went to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        }
+      ],
+      "response": "pepper is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 392
+  },
+  {
+    "nl_input": "I want to add garage as a location to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "garage",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'garage' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 393
+  },
+  {
+    "nl_input": "Remove charger from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "charger"
+        }
+      ],
+      "response": "Removed node 'charger'."
+    },
+    "category": "node_removal",
+    "id": 394
+  },
+  {
+    "nl_input": "robot1 is a robot at garage carrying a charger.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        },
+        {
+          "op": "create_node",
+          "name": "charger",
+          "node_type": "charger"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot1",
+          "target": "charger"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 395
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 396
+  },
+  {
+    "nl_input": "Change the color of robot1 to green.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "color",
+          "value": "green"
+        }
+      ],
+      "response": "Set color of robot1 to green."
+    },
+    "category": "property_setting",
+    "id": 397
+  },
+  {
+    "nl_input": "Change the battery of robot2 to 10.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Set battery of robot2 to 10."
+    },
+    "category": "property_setting",
+    "id": 398
+  },
+  {
+    "nl_input": "charger is no longer in the system.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "charger"
+        }
+      ],
+      "response": "Removed node 'charger'."
+    },
+    "category": "node_removal",
+    "id": 399
+  },
+  {
+    "nl_input": "The robot robot2 went to lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "lab"
+        }
+      ],
+      "response": "robot2 is now at lab."
+    },
+    "category": "edge_creation",
+    "id": 400
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 401
+  },
+  {
+    "nl_input": "Change the weight of spot to 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "weight",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set weight of spot to 0.5."
+    },
+    "category": "property_setting",
+    "id": 402
+  },
+  {
+    "nl_input": "tiago left lab.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "lab"
+        }
+      ],
+      "response": "Removed edge 'at' from tiago to lab."
+    },
+    "category": "edge_removal",
+    "id": 403
+  },
+  {
+    "nl_input": "The robot pepper went to kitchen.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "kitchen"
+        }
+      ],
+      "response": "pepper is now at kitchen."
+    },
+    "category": "edge_creation",
+    "id": 404
+  },
+  {
+    "nl_input": "Where is pepper?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 405
+  },
+  {
+    "nl_input": "What does robot2 hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 406
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 407
+  },
+  {
+    "nl_input": "Create a node for bedroom, it is a location.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bedroom",
+          "node_type": "location"
+        }
+      ],
+      "response": "Created node 'bedroom' of type 'location'."
+    },
+    "category": "node_creation",
+    "id": 408
+  },
+  {
+    "nl_input": "Add spot in the lab with battery 50.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 409
+  },
+  {
+    "nl_input": "What is tiago doing?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 410
+  },
+  {
+    "nl_input": "List all nodes.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 411
+  },
+  {
+    "nl_input": "Where is spot?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 412
+  },
+  {
+    "nl_input": "robot2 is not near corridor anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "near",
+          "source": "robot2",
+          "target": "corridor"
+        }
+      ],
+      "response": "Removed edge 'near' from robot2 to corridor."
+    },
+    "category": "edge_removal",
+    "id": 413
+  },
+  {
+    "nl_input": "Move tiago to corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "corridor"
+        }
+      ],
+      "response": "tiago is now at corridor."
+    },
+    "category": "edge_creation",
+    "id": 414
+  },
+  {
+    "nl_input": "Show me the relationships of pepper.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 415
+  },
+  {
+    "nl_input": "robot2 is at the lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "lab"
+        }
+      ],
+      "response": "robot2 is now at lab."
+    },
+    "category": "edge_creation",
+    "id": 416
+  },
+  {
+    "nl_input": "What does pepper hold?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 417
+  },
+  {
+    "nl_input": "tiago left living_room.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "living_room"
+        }
+      ],
+      "response": "Removed edge 'at' from tiago to living_room."
+    },
+    "category": "edge_removal",
+    "id": 418
+  },
+  {
+    "nl_input": "robot1 is not at corridor anymore.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "corridor"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to corridor."
+    },
+    "category": "edge_removal",
+    "id": 419
+  },
+  {
+    "nl_input": "Add a robot called spot.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'spot' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 420
+  },
+  {
+    "nl_input": "I want to add carlos as a person to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "carlos",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'carlos' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 421
+  },
+  {
+    "nl_input": "Add a robot called ur5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'ur5' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 422
+  },
+  {
+    "nl_input": "Remove the connection between robot1 and office.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "office"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to office."
+    },
+    "category": "edge_removal",
+    "id": 423
+  },
+  {
+    "nl_input": "There is a person named carlos.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "carlos",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'carlos' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 424
+  },
+  {
+    "nl_input": "Which robots are in the warehouse?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 425
+  },
+  {
+    "nl_input": "ur5 now has weight 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "weight",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set weight of ur5 to 0.5."
+    },
+    "category": "property_setting",
+    "id": 426
+  },
+  {
+    "nl_input": "Is ur5 in the warehouse?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 427
+  },
+  {
+    "nl_input": "Add pepper in the living_room with battery 100.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "pepper",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "pepper",
+          "target": "living_room"
+        },
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "battery",
+          "value": "100"
+        }
+      ],
+      "response": "Done. pepper registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 428
+  },
+  {
+    "nl_input": "What is connected to bottle?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 429
+  },
+  {
+    "nl_input": "Remove tool from the graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tool"
+        }
+      ],
+      "response": "Removed node 'tool'."
+    },
+    "category": "node_removal",
+    "id": 430
+  },
+  {
+    "nl_input": "Move pepper to bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "bedroom"
+        }
+      ],
+      "response": "pepper is now at bedroom."
+    },
+    "category": "edge_creation",
+    "id": 431
+  },
+  {
+    "nl_input": "Create spot, place it at kitchen, and set its status to busy.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "kitchen"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "status",
+          "value": "busy"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 432
+  },
+  {
+    "nl_input": "Which robots are in the corridor?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 433
+  },
+  {
+    "nl_input": "Which robots are in the bedroom?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 434
+  },
+  {
+    "nl_input": "Move spot to bedroom.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "bedroom"
+        }
+      ],
+      "response": "spot is now at bedroom."
+    },
+    "category": "edge_creation",
+    "id": 435
+  },
+  {
+    "nl_input": "Register robot2 at warehouse with speed 0.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "warehouse"
+        },
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "speed",
+          "value": "0.5"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 436
+  },
+  {
+    "nl_input": "Register ur5 at bedroom with speed 1.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "bedroom"
+        },
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Done. ur5 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 437
+  },
+  {
+    "nl_input": "There is a person named bob.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bob",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'bob' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 438
+  },
+  {
+    "nl_input": "What type is tool?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 439
+  },
+  {
+    "nl_input": "Where is ur5?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 440
+  },
+  {
+    "nl_input": "Add robot2 in the corridor with battery 80.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot2",
+          "target": "corridor"
+        },
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "battery",
+          "value": "80"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 441
+  },
+  {
+    "nl_input": "What is robot2 doing?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 442
+  },
+  {
+    "nl_input": "Create robot1, place it at garage, and set its status to moving.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "status",
+          "value": "moving"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 443
+  },
+  {
+    "nl_input": "The robot pepper went to lab.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "pepper",
+          "target": "lab"
+        }
+      ],
+      "response": "pepper is now at lab."
+    },
+    "category": "edge_creation",
+    "id": 444
+  },
+  {
+    "nl_input": "Add robot1 in the corridor with battery 10.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "corridor"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 445
+  },
+  {
+    "nl_input": "Which robots are in the office?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 446
+  },
+  {
+    "nl_input": "spot is at the warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "warehouse"
+        }
+      ],
+      "response": "spot is now at warehouse."
+    },
+    "category": "edge_creation",
+    "id": 447
+  },
+  {
+    "nl_input": "Place spot in garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "spot",
+          "target": "garage"
+        }
+      ],
+      "response": "spot is now in garage."
+    },
+    "category": "edge_creation",
+    "id": 448
+  },
+  {
+    "nl_input": "I want to add charger as a charger to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "charger",
+          "node_type": "charger"
+        }
+      ],
+      "response": "Created node 'charger' of type 'charger'."
+    },
+    "category": "node_creation",
+    "id": 449
+  },
+  {
+    "nl_input": "Remove the connection between ur5 and warehouse.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "warehouse"
+        }
+      ],
+      "response": "Removed edge 'at' from ur5 to warehouse."
+    },
+    "category": "edge_removal",
+    "id": 450
+  },
+  {
+    "nl_input": "robot2 is near the living_room.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "robot2",
+          "target": "living_room"
+        }
+      ],
+      "response": "robot2 is now near living_room."
+    },
+    "category": "edge_creation",
+    "id": 451
+  },
+  {
+    "nl_input": "robot2 is a robot at living_room carrying a box.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "living_room"
+        },
+        {
+          "op": "create_node",
+          "name": "box",
+          "node_type": "box"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "carries",
+          "source": "robot2",
+          "target": "box"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 452
+  },
+  {
+    "nl_input": "robot2 now has weight 3.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "weight",
+          "value": "3.0"
+        }
+      ],
+      "response": "Set weight of robot2 to 3.0."
+    },
+    "category": "property_setting",
+    "id": 453
+  },
+  {
+    "nl_input": "The robot tiago went to garage.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "garage"
+        }
+      ],
+      "response": "tiago is now at garage."
+    },
+    "category": "edge_creation",
+    "id": 454
+  },
+  {
+    "nl_input": "Take bottle out of the knowledge graph.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "bottle"
+        }
+      ],
+      "response": "Removed node 'bottle'."
+    },
+    "category": "node_removal",
+    "id": 455
+  },
+  {
+    "nl_input": "The battery of ur5 is 10.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "battery",
+          "value": "10"
+        }
+      ],
+      "response": "Set battery of ur5 to 10."
+    },
+    "category": "property_setting",
+    "id": 456
+  },
+  {
+    "nl_input": "ur5 is in the warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "ur5",
+          "target": "warehouse"
+        }
+      ],
+      "response": "ur5 is now in warehouse."
+    },
+    "category": "edge_creation",
+    "id": 457
+  },
+  {
+    "nl_input": "robot1 is near the warehouse.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "near",
+          "source": "robot1",
+          "target": "warehouse"
+        }
+      ],
+      "response": "robot1 is now near warehouse."
+    },
+    "category": "edge_creation",
+    "id": 458
+  },
+  {
+    "nl_input": "Set spot's weight to 0.5.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "weight",
+          "value": "0.5"
+        }
+      ],
+      "response": "Set weight of spot to 0.5."
+    },
+    "category": "property_setting",
+    "id": 459
+  },
+  {
+    "nl_input": "robot1 is now in corridor.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "in",
+          "source": "robot1",
+          "target": "corridor"
+        }
+      ],
+      "response": "robot1 is now in corridor."
+    },
+    "category": "edge_creation",
+    "id": 460
+  },
+  {
+    "nl_input": "What robots are in the system?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 461
+  },
+  {
+    "nl_input": "I want to add cup as a book to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "cup",
+          "node_type": "book"
+        }
+      ],
+      "response": "Created node 'cup' of type 'book'."
+    },
+    "category": "node_creation",
+    "id": 462
+  },
+  {
+    "nl_input": "Delete the 'at' edge from tiago to garage.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'at' from tiago to garage."
+    },
+    "category": "edge_removal",
+    "id": 463
+  },
+  {
+    "nl_input": "Register a new person called carlos in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "carlos",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'carlos' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 464
+  },
+  {
+    "nl_input": "Create robot2, place it at office, and set its status to busy.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "office"
+        },
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "status",
+          "value": "busy"
+        }
+      ],
+      "response": "Done. robot2 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 465
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 466
+  },
+  {
+    "nl_input": "Is there a robot called book?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 467
+  },
+  {
+    "nl_input": "Register a new tool called bottle in the system.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "bottle",
+          "node_type": "tool"
+        }
+      ],
+      "response": "Created node 'bottle' of type 'tool'."
+    },
+    "category": "node_creation",
+    "id": 468
+  },
+  {
+    "nl_input": "Register tiago at warehouse with speed 1.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "tiago",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "warehouse"
+        },
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Done. tiago registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 469
+  },
+  {
+    "nl_input": "Move tiago to living_room.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "tiago",
+          "target": "living_room"
+        }
+      ],
+      "response": "tiago is now at living_room."
+    },
+    "category": "edge_creation",
+    "id": 470
+  },
+  {
+    "nl_input": "Show me the relationships of pepper.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 471
+  },
+  {
+    "nl_input": "Show me the relationships of tiago.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 472
+  },
+  {
+    "nl_input": "Is robot1 in the kitchen?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 473
+  },
+  {
+    "nl_input": "robot2 left lab.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot2",
+          "target": "lab"
+        }
+      ],
+      "response": "Removed edge 'at' from robot2 to lab."
+    },
+    "category": "edge_removal",
+    "id": 474
+  },
+  {
+    "nl_input": "Delete the 'in' edge from ur5 to office.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "in",
+          "source": "ur5",
+          "target": "office"
+        }
+      ],
+      "response": "Removed edge 'in' from ur5 to office."
+    },
+    "category": "edge_removal",
+    "id": 475
+  },
+  {
+    "nl_input": "Create spot, place it at lab, and set its status to idle.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "spot",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "lab"
+        },
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "status",
+          "value": "idle"
+        }
+      ],
+      "response": "Done. spot registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 476
+  },
+  {
+    "nl_input": "Add a robot called robot1.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot1' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 477
+  },
+  {
+    "nl_input": "Change the color of tiago to blue.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "color",
+          "value": "blue"
+        }
+      ],
+      "response": "Set color of tiago to blue."
+    },
+    "category": "property_setting",
+    "id": 478
+  },
+  {
+    "nl_input": "Tell me about tool.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 479
+  },
+  {
+    "nl_input": "Delete the node tray.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "tray"
+        }
+      ],
+      "response": "Removed node 'tray'."
+    },
+    "category": "node_removal",
+    "id": 480
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 481
+  },
+  {
+    "nl_input": "Tell me about tool.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 482
+  },
+  {
+    "nl_input": "Register ur5 at warehouse with speed 1.5.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "ur5",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "ur5",
+          "target": "warehouse"
+        },
+        {
+          "op": "set_property",
+          "name": "ur5",
+          "key": "speed",
+          "value": "1.5"
+        }
+      ],
+      "response": "Done. ur5 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 483
+  },
+  {
+    "nl_input": "Which robots are in the bedroom?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 484
+  },
+  {
+    "nl_input": "Set robot2's battery to 100.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "battery",
+          "value": "100"
+        }
+      ],
+      "response": "Set battery of robot2 to 100."
+    },
+    "category": "property_setting",
+    "id": 485
+  },
+  {
+    "nl_input": "Add a robot called robot2.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot2",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot2' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 486
+  },
+  {
+    "nl_input": "Add a robot called robot1.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        }
+      ],
+      "response": "Created node 'robot1' of type 'robot'."
+    },
+    "category": "node_creation",
+    "id": 487
+  },
+  {
+    "nl_input": "What is spot doing?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "edge_query",
+    "id": 488
+  },
+  {
+    "nl_input": "Remove the connection between robot1 and garage.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "garage"
+        }
+      ],
+      "response": "Removed edge 'at' from robot1 to garage."
+    },
+    "category": "edge_removal",
+    "id": 489
+  },
+  {
+    "nl_input": "Update pepper: color = white.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "pepper",
+          "key": "color",
+          "value": "white"
+        }
+      ],
+      "response": "Set color of pepper to white."
+    },
+    "category": "property_setting",
+    "id": 490
+  },
+  {
+    "nl_input": "spot is no longer at corridor.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_edge",
+          "edge_type": "at",
+          "source": "spot",
+          "target": "corridor"
+        }
+      ],
+      "response": "Removed edge 'at' from spot to corridor."
+    },
+    "category": "edge_removal",
+    "id": 491
+  },
+  {
+    "nl_input": "spot now has color green.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "spot",
+          "key": "color",
+          "value": "green"
+        }
+      ],
+      "response": "Set color of spot to green."
+    },
+    "category": "property_setting",
+    "id": 492
+  },
+  {
+    "nl_input": "Tell me about robot2.",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 493
+  },
+  {
+    "nl_input": "How many robots are there?",
+    "expected": {
+      "intent": "query",
+      "operations": [],
+      "response": "(answer depends on current graph state)"
+    },
+    "category": "node_query",
+    "id": 494
+  },
+  {
+    "nl_input": "Get rid of ur5.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "ur5"
+        }
+      ],
+      "response": "Removed node 'ur5'."
+    },
+    "category": "node_removal",
+    "id": 495
+  },
+  {
+    "nl_input": "Get rid of bottle.",
+    "expected": {
+      "intent": "remove",
+      "operations": [
+        {
+          "op": "remove_node",
+          "name": "bottle"
+        }
+      ],
+      "response": "Removed node 'bottle'."
+    },
+    "category": "node_removal",
+    "id": 496
+  },
+  {
+    "nl_input": "Change the battery of robot2 to 50.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "robot2",
+          "key": "battery",
+          "value": "50"
+        }
+      ],
+      "response": "Set battery of robot2 to 50."
+    },
+    "category": "property_setting",
+    "id": 497
+  },
+  {
+    "nl_input": "Update tiago: speed = 2.0.",
+    "expected": {
+      "intent": "modify",
+      "operations": [
+        {
+          "op": "set_property",
+          "name": "tiago",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Set speed of tiago to 2.0."
+    },
+    "category": "property_setting",
+    "id": 498
+  },
+  {
+    "nl_input": "Register robot1 at warehouse with speed 2.0.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "robot1",
+          "node_type": "robot"
+        },
+        {
+          "op": "create_edge",
+          "edge_type": "at",
+          "source": "robot1",
+          "target": "warehouse"
+        },
+        {
+          "op": "set_property",
+          "name": "robot1",
+          "key": "speed",
+          "value": "2.0"
+        }
+      ],
+      "response": "Done. robot1 registered with the given configuration."
+    },
+    "category": "multi_operation",
+    "id": 499
+  },
+  {
+    "nl_input": "I want to add carlos as a person to the graph.",
+    "expected": {
+      "intent": "assert",
+      "operations": [
+        {
+          "op": "create_node",
+          "name": "carlos",
+          "node_type": "person"
+        }
+      ],
+      "response": "Created node 'carlos' of type 'person'."
+    },
+    "category": "node_creation",
+    "id": 500
+  }
+]
