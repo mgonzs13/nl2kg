@@ -24,6 +24,7 @@ setup(
         "console_scripts": [
             "nl2kg_node = nl2kg.nl2kg_node:main",
             "nl2kg_cli = nl2kg.nl2kg_cli:main",
+            "nl2kg_hri_node = nl2kg.nl2kg_hri_node:main",
         ],
     },
 )

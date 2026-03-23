@@ -10,6 +10,8 @@
   <exec_depend>nl2kg</exec_depend>
   <exec_depend>nl2kg_msgs</exec_depend>
   <exec_depend>llama_bringup</exec_depend>
+  <exec_depend>whisper_bringup</exec_depend>
+  <exec_depend>piper_bringup</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

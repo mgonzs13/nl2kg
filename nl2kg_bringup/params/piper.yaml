@@ -1,0 +1,7 @@
+piper_node:
+  ros__parameters:
+    model:
+      repo: rhasspy/piper-voices
+      filename: en/en_US/lessac/low/en_US-lessac-low.onnx
+      config_repo: rhasspy/piper-voices
+      config_filename: en/en_US/lessac/low/en_US-lessac-low.onnx.json

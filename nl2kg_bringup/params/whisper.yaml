@@ -1,0 +1,9 @@
+whisper_node:
+  ros__parameters:
+    model:
+      repo: ggerganov/whisper.cpp
+      filename: ggml-base.bin
+
+    transcription:
+      language: en
+      n_threads: 4

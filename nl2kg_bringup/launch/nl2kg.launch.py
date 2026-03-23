@@ -17,6 +17,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition
 from launch_ros.actions import Node
 from ament_index_python import get_package_share_directory
 
@@ -44,6 +45,12 @@ def generate_launch_description():
         "reranker_params",
         default_value=os.path.join(bringup_share, "params", "bge-reranker-v2-m3.yaml"),
         description="Path to the reranker model YAML config",
+    )
+
+    enable_hri_arg = DeclareLaunchArgument(
+        "enable_hri",
+        default_value="false",
+        description="Enable voice-based HRI (STT + TTS)",
     )
 
     # Chat LLM
@@ -84,12 +91,43 @@ def generate_launch_description():
         output="screen",
     )
 
+    # Whisper STT (conditional)
+    whisper_bringup_share = get_package_share_directory("whisper_bringup")
+    whisper_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(whisper_bringup_share, "launch", "whisper.launch.py")
+        ),
+        condition=IfCondition(LaunchConfiguration("enable_hri")),
+    )
+
+    # Piper TTS (conditional)
+    piper_bringup_share = get_package_share_directory("piper_bringup")
+    piper_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(piper_bringup_share, "launch", "piper.launch.py")
+        ),
+        condition=IfCondition(LaunchConfiguration("enable_hri")),
+    )
+
+    # NL2KG HRI node (conditional)
+    nl2kg_hri_node = Node(
+        package="nl2kg",
+        executable="nl2kg_hri_node",
+        name="nl2kg_hri_node",
+        output="screen",
+        condition=IfCondition(LaunchConfiguration("enable_hri")),
+    )
+
     ld = LaunchDescription()
     ld.add_action(model_params_arg)
     ld.add_action(embedding_params_arg)
     ld.add_action(reranker_params_arg)
+    ld.add_action(enable_hri_arg)
     ld.add_action(llama_launch)
     ld.add_action(embedding_launch)
     ld.add_action(reranker_launch)
     ld.add_action(nl2kg_node)
+    ld.add_action(whisper_launch)
+    ld.add_action(piper_launch)
+    ld.add_action(nl2kg_hri_node)
     return ld

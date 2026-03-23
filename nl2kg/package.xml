@@ -12,6 +12,8 @@
   <exec_depend>knowledge_graph</exec_depend>
   <exec_depend>llama_ros</exec_depend>
   <exec_depend>llama_msgs</exec_depend>
+  <exec_depend>whisper_msgs</exec_depend>
+  <exec_depend>audio_common_msgs</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
