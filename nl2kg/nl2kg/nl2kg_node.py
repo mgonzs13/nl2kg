@@ -73,10 +73,19 @@ operations; put the answer in "response".
 - node_type: "robot", "location", "person", "cup", "book", "box", "bottle", \
 "tool", "plate", "charger", "tray"
 - edge_type: "at", "in", "near", "holds", "carries", "sees", "faces"
+- set_property key — use ONLY these canonical names regardless of how the \
+user phrases it:
+  - "battery"  (e.g. "battery level", "power", "charge")
+  - "speed"    (e.g. "pace", "velocity", "rate")
+  - "status"   (e.g. "state", "mode", "condition")
+  - "color"    (e.g. "colour", "finish", "painted", "looks like")
+  - "weight"   (e.g. "mass", "kilograms", "kg")
 
 ## set_property rules
 - For node properties, always set the "name" field to the node name.
 - Only use "source" and "target" when setting a property on an edge.
+- ALWAYS use the canonical key name from the vocabulary above (e.g. \
+write "color", never "colour").
 
 ## Output format
 Always reply with a single JSON object:
@@ -87,47 +96,74 @@ Always reply with a single JSON object:
 }}
 
 ## Rules
-1. Only reference nodes/edges that already exist or that you create in the \
-same response.
-2. If the user request is ambiguous, set intent to "unclear" and ask for \
+1. Before creating an edge, always check the current graph state. \
+If the source or target node does NOT already exist in the graph, \
+add a create_node operation for it in the same response.
+2. For "modify" (set_property), do NOT create nodes or edges — only \
+set the property. The node already exists in the graph.
+3. For "remove", do NOT create nodes or edges — only remove what is asked. \
+The entity already exists in the graph.
+4. If the user request is ambiguous, set intent to "unclear" and ask for \
 clarification in "response".
-3. For queries, set intent to "query", operations to [] and put the answer \
+5. For queries, set intent to "query", operations to [] and put the answer \
 in "response".
-4. Keep "response" concise and informative.
-5. When the user says a robot "is at/in/near" a location, or "went to" / \
-"move to" a location, create an edge using the EXACT preposition from the \
+6. Keep "response" concise and informative.
+7. When the user says a robot "is at/in/near" a location, or "went to" / \
+"moved to" a location, create an edge using the EXACT preposition from the \
 sentence as edge_type (at, in, or near). If no preposition is given, \
 default to "at".
-6. For edge removal, use the EXACT edge_type mentioned in the sentence. \
+8. For edge removal, use the EXACT edge_type mentioned in the sentence. \
 If not explicitly stated, default to "at".
-7. Do NOT create extra nodes when only an edge or property operation is \
-requested.
+9. Do NOT add set_property operations unless the user explicitly states a \
+property value (battery level, speed, status, color, weight, etc.).
+10. Do NOT remove edges that are not explicitly mentioned by the user.
+11. For node creation, the "name" field must be the entity's proper name (e.g. \
+"tiago", "kitchen"). Do NOT use positional words like "here", "nearby", \
+"area", "there" as the name.
 
 ## Examples
 
-User: "Add a robot called tiago."
+User: "Just so you know, tiago is one of our robots."
 {{
   "intent": "assert",
   "operations": [{{"op": "create_node", "name": "tiago", "node_type": "robot"}}],
-  "response": "Created node 'tiago' of type 'robot'."
+  "response": "Got it, I'll remember that tiago is a robot."
+}}
+
+User: "I just spotted robot1 in the kitchen."
+{{
+  "intent": "assert",
+  "operations": [
+    {{"op": "create_node", "name": "robot1", "node_type": "robot"}},
+    {{"op": "create_node", "name": "kitchen", "node_type": "location"}},
+    {{"op": "create_edge", "edge_type": "in", "source": "robot1", "target": "kitchen"}}
+  ],
+  "response": "Understood, robot1 is now in the kitchen."
 }}
 
 User: "robot1 is at the kitchen."
 {{
   "intent": "assert",
   "operations": [
-    {{"op": "create_edge", "edge_type": "at", "source": "robot1", "target": "kitchen"}},
     {{"op": "create_node", "name": "robot1", "node_type": "robot"}},
     {{"op": "create_node", "name": "kitchen", "node_type": "location"}},
+    {{"op": "create_edge", "edge_type": "at", "source": "robot1", "target": "kitchen"}}
   ],
-  "response": "robot1 is now at kitchen."
+  "response": "Understood, robot1 is now at the kitchen."
 }}
 
-User: "Set robot1's battery to 80."
+User: "robot1's color is green."
+{{
+  "intent": "modify",
+  "operations": [{{"op": "set_property", "name": "robot1", "key": "color", "value": "green"}}],
+  "response": "Got it, I've updated robot1's color to green."
+}}
+
+User: "robot1's battery is at 80 percent."
 {{
   "intent": "modify",
   "operations": [{{"op": "set_property", "name": "robot1", "key": "battery", "value": "80"}}],
-  "response": "Set battery of robot1 to 80."
+  "response": "Got it, I've updated robot1's battery to 80."
 }}
 
 User: "Where is robot1?"
@@ -137,30 +173,30 @@ User: "Where is robot1?"
   "response": "robot1 is at the kitchen."
 }}
 
-User: "Remove robot1 from the graph."
+User: "robot1 is gone. You can forget about it."
 {{
   "intent": "remove",
   "operations": [{{"op": "remove_node", "name": "robot1"}}],
-  "response": "Removed node 'robot1'."
+  "response": "Understood, I'll forget about robot1."
 }}
 
-User: "robot1 is not at kitchen anymore."
+User: "robot1 left the kitchen."
 {{
   "intent": "remove",
   "operations": [{{"op": "remove_edge", "edge_type": "at", "source": "robot1", "target": "kitchen"}}],
-  "response": "Removed edge 'at' from robot1 to kitchen."
+  "response": "Got it, I'll note that robot1 is no longer at the kitchen."
 }}
 
-User: "Add spot in the lab with battery 50."
+User: "spot is one of our robots and it's in the lab with 50% battery."
 {{
   "intent": "assert",
   "operations": [
-    {{"op": "create_node", "name": "lab", "node_type": "location"}},
     {{"op": "create_node", "name": "spot", "node_type": "robot"}},
+    {{"op": "create_node", "name": "lab", "node_type": "location"}},
     {{"op": "create_edge", "edge_type": "in", "source": "spot", "target": "lab"}},
     {{"op": "set_property", "name": "spot", "key": "battery", "value": "50"}}
   ],
-  "response": "Done. spot registered with the given configuration."
+  "response": "Got it, I've recorded all the information about spot."
 }}
 
 ## Current Knowledge Graph state
@@ -175,7 +211,7 @@ class NL2KGNode(Node):
         super().__init__("nl2kg_node")
 
         # Parameters
-        self.declare_parameter("temperature", 0.2)
+        self.declare_parameter("temperature", 0.0)
         self.declare_parameter("use_gbnf", True)
         self.declare_parameter("enable_rag", False)
 
