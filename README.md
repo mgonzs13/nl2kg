@@ -2,7 +2,7 @@
 
 Grammar-Constrained LLM Generation for Bidirectional Natural-Language Interaction with Robot Knowledge Graphs.
 
-NL2KG is a ROS 2 system that provides a bidirectional pipeline between natural language and a distributed knowledge graph. It uses a locally-deployed LLM (Qwen3-4B via [llama_ros](https://github.com/mgonzs13/llama_ros)) with GBNF grammar-constrained decoding, ensuring every output is a syntactically valid JSON object encoding KG operations. An optional RAG pipeline with embedding retrieval and reranking improves context quality.
+NL2KG is a ROS 2 system that provides a bidirectional pipeline between natural language and a distributed knowledge graph. It uses a locally-deployed LLM (via [llama_ros](https://github.com/mgonzs13/llama_ros)) with GBNF grammar-constrained decoding, ensuring every output is a syntactically valid JSON object encoding KG operations. An optional RAG pipeline with embedding retrieval and reranking improves context quality.
 
 ## Dependencies
 
@@ -120,8 +120,8 @@ ros2 run nl2kg nl2kg_cli
 
 Type natural language commands like:
 
-- `"Add a robot called robot1"` → creates a node
-- `"robot1 is in the kitchen"` → creates an edge
+- `"There is a robot called robot1"` → creates a node
+- `"Robot1 is in the kitchen"` → creates an edge
 - `"Set robot1 battery to 80"` → sets a property
 - `"Where is robot1?"` → queries the graph
 - `"Remove robot1 from the graph"` → deletes a node
@@ -140,6 +140,6 @@ Configured in `nl2kg_bringup/params/nl2kg.yaml`:
 
 | Parameter     | Default | Description                                    |
 | ------------- | ------- | ---------------------------------------------- |
-| `temperature` | `0.2`   | LLM sampling temperature                       |
+| `temperature` | `0.0`   | LLM sampling temperature                       |
 | `use_gbnf`    | `true`  | Enable GBNF grammar-constrained decoding       |
 | `enable_rag`  | `false` | Enable RAG with Chroma + embeddings + reranker |
