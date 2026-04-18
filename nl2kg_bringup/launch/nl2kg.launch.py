@@ -53,6 +53,18 @@ def generate_launch_description():
         description="Enable voice-based HRI (STT + TTS)",
     )
 
+    system_prompt_file_arg = DeclareLaunchArgument(
+        "system_prompt_file",
+        default_value="",
+        description="Override path for the nl2kg_node system prompt file.",
+    )
+
+    grammar_file_arg = DeclareLaunchArgument(
+        "grammar_file",
+        default_value="",
+        description="Override path for the nl2kg_node GBNF grammar file.",
+    )
+
     # Chat LLM
     llama_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(base_launch),
@@ -87,6 +99,10 @@ def generate_launch_description():
         name="nl2kg_node",
         parameters=[
             os.path.join(bringup_share, "params", "nl2kg.yaml"),
+            {
+                "system_prompt_file": LaunchConfiguration("system_prompt_file"),
+                "grammar_file": LaunchConfiguration("grammar_file"),
+            },
         ],
         output="screen",
     )
@@ -123,6 +139,8 @@ def generate_launch_description():
     ld.add_action(embedding_params_arg)
     ld.add_action(reranker_params_arg)
     ld.add_action(enable_hri_arg)
+    ld.add_action(system_prompt_file_arg)
+    ld.add_action(grammar_file_arg)
     ld.add_action(llama_launch)
     ld.add_action(embedding_launch)
     ld.add_action(reranker_launch)

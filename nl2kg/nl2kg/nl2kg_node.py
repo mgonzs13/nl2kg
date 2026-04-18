@@ -14,6 +14,7 @@
 
 
 import json
+import os
 from typing import List
 from pathlib import Path
 
@@ -214,10 +215,21 @@ class NL2KGNode(Node):
         self.declare_parameter("temperature", 0.0)
         self.declare_parameter("use_gbnf", True)
         self.declare_parameter("enable_rag", False)
+        self.declare_parameter("system_prompt_file", "")  # optional override path
+        self.declare_parameter("grammar_file", "")  # optional override path
 
         temp = self.get_parameter("temperature").value
         use_gbnf = self.get_parameter("use_gbnf").value
         enable_rag = self.get_parameter("enable_rag").value
+        system_prompt_file = self.get_parameter("system_prompt_file").value
+        grammar_file = self.get_parameter("grammar_file").value
+
+        # System prompt — use custom file if provided, else default
+        if system_prompt_file and os.path.exists(system_prompt_file):
+            self._system_prompt = Path(system_prompt_file).read_text()
+            self.get_logger().info(f"Using custom system prompt: {system_prompt_file}")
+        else:
+            self._system_prompt = SYSTEM_PROMPT
 
         # Knowledge Graph
         self.graph = KnowledgeGraph.get_instance()
@@ -225,7 +237,7 @@ class NL2KGNode(Node):
         # LLM — optionally with GBNF grammar for constrained decoding
         grammar = ""
         if use_gbnf:
-            grammar = self._load_grammar()
+            grammar = self._load_grammar(grammar_file)
             self.get_logger().info("Using GBNF grammar for constrained output")
 
         self.llm = ChatLlamaROS(temp=temp, grammar=grammar)
@@ -321,7 +333,10 @@ class NL2KGNode(Node):
     # ------------------------------------------------------------------
     # Grammar loading
     # ------------------------------------------------------------------
-    def _load_grammar(self) -> str:
+    def _load_grammar(self, override_path: str = "") -> str:
+        if override_path and os.path.exists(override_path):
+            self.get_logger().info(f"Using custom grammar: {override_path}")
+            return Path(override_path).read_text()
         pkg_share = get_package_share_directory("nl2kg")
         grammar_path = Path(pkg_share) / "grammars" / "nl2kg.gbnf"
         return grammar_path.read_text()
@@ -400,7 +415,7 @@ class NL2KGNode(Node):
         else:
             kg_context = serialize_graph(self.graph)
 
-        system_msg = SYSTEM_PROMPT.format(kg_context=kg_context)
+        system_msg = self._system_prompt.format(kg_context=kg_context)
 
         messages = [
             SystemMessage(content=system_msg),
