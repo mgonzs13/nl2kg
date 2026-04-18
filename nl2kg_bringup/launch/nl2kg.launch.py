@@ -65,6 +65,12 @@ def generate_launch_description():
         description="Override path for the nl2kg_node GBNF grammar file.",
     )
 
+    enable_embedding_arg = DeclareLaunchArgument(
+        "enable_embedding",
+        default_value="false",
+        description="Enable the embedding model nodes",
+    )
+
     # Chat LLM
     llama_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(base_launch),
@@ -81,6 +87,7 @@ def generate_launch_description():
             "params_file": LaunchConfiguration("embedding_params"),
             "node_name": "embedding_node",
         }.items(),
+        condition=IfCondition(LaunchConfiguration("enable_embedding")),
     )
 
     # Reranker model
@@ -90,6 +97,7 @@ def generate_launch_description():
             "params_file": LaunchConfiguration("reranker_params"),
             "node_name": "reranker_node",
         }.items(),
+        condition=IfCondition(LaunchConfiguration("enable_embedding")),
     )
 
     # NL2KG node
@@ -141,6 +149,7 @@ def generate_launch_description():
     ld.add_action(enable_hri_arg)
     ld.add_action(system_prompt_file_arg)
     ld.add_action(grammar_file_arg)
+    ld.add_action(enable_embedding_arg)
     ld.add_action(llama_launch)
     ld.add_action(embedding_launch)
     ld.add_action(reranker_launch)
