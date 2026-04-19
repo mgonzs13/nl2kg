@@ -2,7 +2,7 @@
 
 Grammar-Constrained LLM Generation for Bidirectional Natural-Language Interaction with Robot Knowledge Graphs.
 
-NL2KG is a ROS 2 system that provides a bidirectional pipeline between natural language and a distributed knowledge graph. It uses a locally-deployed LLM (via [llama_ros](https://github.com/mgonzs13/llama_ros)) with GBNF grammar-constrained decoding, ensuring every output is a syntactically valid JSON object encoding KG operations. An optional RAG pipeline with embedding retrieval and reranking improves context quality.
+NL2KG is a ROS 2 system that provides a bidirectional pipeline between natural language and a distributed knowledge graph. It uses a locally-deployed LLM (via [llama_ros](https://github.com/mgonzs13/llama_ros)) with JSON schema-based GBNF grammar-constrained decoding, ensuring every output is a syntactically valid JSON object encoding KG operations. An optional RAG pipeline with embedding retrieval and reranking improves context quality.
 
 ## Dependencies
 
@@ -31,8 +31,8 @@ source install/setup.bash
 
 ```
 nl2kg/
-├── grammars/
-│   └── nl2kg.gbnf              # GBNF grammar for constrained JSON generation
+├── json_schemas/
+│   └── nl2kg.json              # JSON schema to build the GBNF grammar for constrained JSON generation
 ├── nl2kg/
 │   ├── __init__.py
 │   ├── kg_context.py           # KG → text serializer for LLM context
@@ -138,8 +138,9 @@ ros2 action send_goal /nl2kg_node/nl2kg nl2kg_msgs/action/NL2KG "{input_text: 'A
 
 Configured in `nl2kg_bringup/params/nl2kg.yaml`:
 
-| Parameter     | Default | Description                                    |
-| ------------- | ------- | ---------------------------------------------- |
-| `temperature` | `0.0`   | LLM sampling temperature                       |
-| `use_gbnf`    | `true`  | Enable GBNF grammar-constrained decoding       |
-| `enable_rag`  | `false` | Enable RAG with Chroma + embeddings + reranker |
+| Parameter               | Default | Description                                        |
+| ----------------------- | ------- | -------------------------------------------------- |
+| `temperature`           | `0.0`   | LLM sampling temperature                           |
+| `use_grammar`           | `true`  | Enable GBNF grammar-constrained decoding           |
+| `use_structured_output` | `false` | Use structured output (only if grmmar is not used) |
+| `enable_rag`            | `false` | Enable RAG with Chroma + embeddings + reranker     |

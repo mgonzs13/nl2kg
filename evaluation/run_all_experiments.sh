@@ -19,7 +19,7 @@
 # Runs the NL2KG evaluation for every model, with and without GBNF grammar.
 # Each experiment:
 #   1. Generates the YAML config for the model
-#   2. Updates nl2kg.yaml with use_gbnf=true/false
+#   2. Updates nl2kg.yaml with use_schema=true/false
 #   3. Launches the NL2KG system
 #   4. Waits for the action server
 #   5. Runs the evaluation
@@ -56,10 +56,9 @@ MODELS=(
     # "Qwen-3-4B                bartowski/Qwen_Qwen3-4B-GGUF                  Qwen_Qwen3-4B-Q4_K_M.gguf"
     "Qwen-3.5-4B              bartowski/Qwen_Qwen3.5-4B-GGUF                Qwen_Qwen3.5-4B-Q4_K_M.gguf"
     # "Qwen-3.5-9B              bartowski/Qwen_Qwen3.5-9B-GGUF                Qwen_Qwen3.5-9B-Q4_K_M.gguf"
-    # "Llama-3.1-8B             bartowski/Meta-Llama-3.1-8B-Instruct-GGUF     Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf"
 )
 
-# Grammar modes: (suffix  use_gbnf_value)
+# Grammar modes: (suffix  use_grammar_value)
 GRAMMAR_MODES=(
     "grammar      true"
     "no_grammar   false"
@@ -129,13 +128,13 @@ EOF
 }
 
 update_nl2kg_yaml() {
-    local use_gbnf="$1"
+    local use_grammar="$1"
 
     cat > "${BRINGUP_PARAMS}/nl2kg.yaml" <<EOF
 nl2kg_node:
   ros__parameters:
     temperature: 0.0
-    use_gbnf: ${use_gbnf}
+    use_schema: ${use_grammar}
     use_structured_output: false
     enable_rag: false
 EOF
@@ -218,7 +217,7 @@ for model_line in "${MODELS[@]}"; do
     read -r model_name model_repo model_file <<< "${model_line}"
 
     for grammar_line in "${GRAMMAR_MODES[@]}"; do
-        read -r grammar_suffix use_gbnf <<< "${grammar_line}"
+        read -r grammar_suffix use_grammar <<< "${grammar_line}"
 
         RUN_NUM=$((RUN_NUM + 1))
         EXPERIMENT_NAME="${model_name}-${grammar_suffix}"
@@ -239,8 +238,8 @@ for model_line in "${MODELS[@]}"; do
         echo "  Model config: ${MODEL_YAML}"
 
         # 2. Update nl2kg.yaml
-        update_nl2kg_yaml "${use_gbnf}"
-        echo "  Grammar: use_gbnf=${use_gbnf}"
+        update_nl2kg_yaml "${use_grammar}"
+        echo "  Grammar: use_grammar=${use_grammar}"
 
         # 3. Launch the system
         echo "  Launching NL2KG system..."

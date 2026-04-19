@@ -213,18 +213,18 @@ class NL2KGNode(Node):
 
         # Parameters
         self.declare_parameter("temperature", 0.0)
-        self.declare_parameter("use_gbnf", True)
+        self.declare_parameter("use_schema", True)
         self.declare_parameter("enable_rag", False)
         self.declare_parameter("use_structured_output", False)
         self.declare_parameter("system_prompt_file", "")  # optional override path
-        self.declare_parameter("grammar_file", "")  # optional override path
+        self.declare_parameter("json_schema_file", "")  # optional override path
 
         temp = self.get_parameter("temperature").value
-        use_gbnf = self.get_parameter("use_gbnf").value
+        use_schema = self.get_parameter("use_schema").value
         use_structured_output = self.get_parameter("use_structured_output").value
         enable_rag = self.get_parameter("enable_rag").value
         system_prompt_file = self.get_parameter("system_prompt_file").value
-        grammar_file = self.get_parameter("grammar_file").value
+        json_schema_file = self.get_parameter("json_schema_file").value
 
         # System prompt — use custom file if provided, else default
         if system_prompt_file and os.path.exists(system_prompt_file):
@@ -236,16 +236,16 @@ class NL2KGNode(Node):
         # Knowledge Graph
         self.graph = KnowledgeGraph.get_instance()
 
-        # LLM — optionally with GBNF grammar for constrained decoding
-        grammar = ""
-        if use_gbnf:
-            grammar = self._load_grammar(grammar_file)
-            self.get_logger().info("Using GBNF grammar for constrained output")
+        # LLM — optionally with JSON schema for constrained decoding
+        json_schema = ""
+        if use_schema:
+            json_schema = self._load_json_schema(json_schema_file)
+            self.get_logger().info("Using JSON schema for constrained output")
 
-        self.llm = ChatLlamaROS(temp=temp, grammar=grammar)
+        self.llm = ChatLlamaROS(temp=temp, grammar_schema=json_schema)
 
-        # Structured output chain (Pydantic parser fallback when GBNF off)
-        if not use_gbnf and use_structured_output:
+        # Structured output chain (Pydantic parser fallback when JSON schema off)
+        if not use_schema and use_structured_output:
             self.structured_llm = self.llm.with_structured_output(
                 KGResponse, method="function_calling"
             )
@@ -335,13 +335,13 @@ class NL2KGNode(Node):
     # ------------------------------------------------------------------
     # Grammar loading
     # ------------------------------------------------------------------
-    def _load_grammar(self, override_path: str = "") -> str:
+    def _load_json_schema(self, override_path: str = "") -> str:
         if override_path and os.path.exists(override_path):
-            self.get_logger().info(f"Using custom grammar: {override_path}")
+            self.get_logger().info(f"Using custom JSON schema: {override_path}")
             return Path(override_path).read_text()
         pkg_share = get_package_share_directory("nl2kg")
-        grammar_path = Path(pkg_share) / "grammars" / "nl2kg.gbnf"
-        return grammar_path.read_text()
+        json_schema_path = Path(pkg_share) / "json_schemas" / "nl2kg.json"
+        return json_schema_path.read_text()
 
     # ------------------------------------------------------------------
     # RAG setup with reranker

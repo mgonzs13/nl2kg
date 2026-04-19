@@ -24,6 +24,7 @@ from ament_index_python import get_package_share_directory
 
 def generate_launch_description():
 
+    nl2kg_share = get_package_share_directory("nl2kg")
     bringup_share = get_package_share_directory("nl2kg_bringup")
     llama_bringup_share = get_package_share_directory("llama_bringup")
     base_launch = os.path.join(llama_bringup_share, "launch", "base.launch.py")
@@ -59,10 +60,10 @@ def generate_launch_description():
         description="Override path for the nl2kg_node system prompt file.",
     )
 
-    grammar_file_arg = DeclareLaunchArgument(
-        "grammar_file",
-        default_value=os.path.join(bringup_share, "params", "nl2kg.yaml"),
-        description="Override path for the nl2kg_node GBNF grammar file.",
+    json_schema_file_arg = DeclareLaunchArgument(
+        "json_schema_file",
+        default_value=os.path.join(nl2kg_share, "json_schemas", "nl2kg.json"),
+        description="Override path for the nl2kg_node JSON schema file.",
     )
 
     nl2kg_config_arg = DeclareLaunchArgument(
@@ -115,7 +116,7 @@ def generate_launch_description():
             LaunchConfiguration("nl2kg_config_file"),
             {
                 "system_prompt_file": LaunchConfiguration("system_prompt_file"),
-                "grammar_file": LaunchConfiguration("grammar_file"),
+                "json_schema_file": LaunchConfiguration("json_schema_file"),
             },
         ],
         output="screen",
@@ -154,7 +155,7 @@ def generate_launch_description():
     ld.add_action(reranker_params_arg)
     ld.add_action(enable_hri_arg)
     ld.add_action(system_prompt_file_arg)
-    ld.add_action(grammar_file_arg)
+    ld.add_action(json_schema_file_arg)
     ld.add_action(nl2kg_config_arg)
     ld.add_action(enable_embedding_arg)
     ld.add_action(llama_launch)

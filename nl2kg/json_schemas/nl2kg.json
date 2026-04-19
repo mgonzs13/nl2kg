@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NL2KG Operation Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["intent", "operations", "response"],
+  "properties": {
+    "intent": {
+      "type": "string",
+      "enum": ["assert", "query", "remove", "modify", "unclear"]
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/create_node" },
+          { "$ref": "#/$defs/create_edge" },
+          { "$ref": "#/$defs/remove_node" },
+          { "$ref": "#/$defs/remove_edge" },
+          { "$ref": "#/$defs/set_property" },
+          { "$ref": "#/$defs/query" }
+        ]
+      }
+    },
+    "response": {
+      "type": "string"
+    }
+  },
+
+  "$defs": {
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "robot",
+        "location",
+        "person",
+        "cup",
+        "book",
+        "box",
+        "bottle",
+        "tool",
+        "plate",
+        "charger",
+        "tray"
+      ]
+    },
+
+    "edge_type": {
+      "type": "string",
+      "enum": [
+        "at",
+        "in",
+        "near",
+        "holds",
+        "carries",
+        "sees",
+        "faces"
+      ]
+    },
+
+    "create_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "name", "node_type"],
+      "properties": {
+        "op": { "const": "create_node" },
+        "name": { "type": "string" },
+        "node_type": { "$ref": "#/$defs/node_type" }
+      }
+    },
+
+    "create_edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "edge_type", "source", "target"],
+      "properties": {
+        "op": { "const": "create_edge" },
+        "edge_type": { "$ref": "#/$defs/edge_type" },
+        "source": { "type": "string" },
+        "target": { "type": "string" }
+      }
+    },
+
+    "remove_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "name"],
+      "properties": {
+        "op": { "const": "remove_node" },
+        "name": { "type": "string" }
+      }
+    },
+
+    "remove_edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "edge_type", "source", "target"],
+      "properties": {
+        "op": { "const": "remove_edge" },
+        "edge_type": { "$ref": "#/$defs/edge_type" },
+        "source": { "type": "string" },
+        "target": { "type": "string" }
+      }
+    },
+
+    "set_property": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "name", "key", "value"],
+      "properties": {
+        "op": { "const": "set_property" },
+        "name": { "type": "string" },
+        "key": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    },
+
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op"],
+      "properties": {
+        "op": { "const": "query" }
+      }
+    }
+  }
+}
