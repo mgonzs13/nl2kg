@@ -53,8 +53,8 @@ MODELS=(
     # "gemma-3-4b-it            bartowski/google_gemma-3-4b-it-GGUF           google_gemma-3-4b-it-Q4_K_M.gguf"
     # "Nemotron3-Nano-4B        bartowski/Nemotron-Mini-4B-Instruct-GGUF      Nemotron-Mini-4B-Instruct-Q4_K_M.gguf"
     # "Phi-4-mini-instruct      bartowski/microsoft_Phi-4-mini-instruct-GGUF  microsoft_Phi-4-mini-instruct-Q4_K_M.gguf"
-    "Qwen-3-4B                bartowski/Qwen_Qwen3-4B-GGUF                  Qwen_Qwen3-4B-Q4_K_M.gguf"
-    "Qwen-3.5-4B              unsloth/Qwen3.5-4B-GGUF                       Qwen3.5-4B-Q4_K_M.gguf"
+    # "Qwen-3-4B                bartowski/Qwen_Qwen3-4B-GGUF                  Qwen_Qwen3-4B-Q4_K_M.gguf"
+    "Qwen-3.5-4B              bartowski/Qwen_Qwen3.5-4B-GGUF                Qwen_Qwen3.5-4B-Q4_K_M.gguf"
     # "Qwen-3.5-9B              bartowski/Qwen_Qwen3.5-9B-GGUF                Qwen_Qwen3.5-9B-Q4_K_M.gguf"
     # "Llama-3.1-8B             bartowski/Meta-Llama-3.1-8B-Instruct-GGUF     Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf"
 )
@@ -136,6 +136,7 @@ nl2kg_node:
   ros__parameters:
     temperature: 0.0
     use_gbnf: ${use_gbnf}
+    use_structured_output: false
     enable_rag: false
 EOF
 }
@@ -244,7 +245,7 @@ for model_line in "${MODELS[@]}"; do
         # 3. Launch the system
         echo "  Launching NL2KG system..."
         ros2 launch nl2kg_bringup nl2kg.launch.py \
-            model_params:="${MODEL_YAML}" \
+            model_params:="${MODEL_YAML}" enable_embedding:=true \
             > "/tmp/nl2kg_eval_launch_${EXPERIMENT_NAME}.log" 2>&1 &
         LAUNCH_PID=$!
         echo "  Launch PID: ${LAUNCH_PID}"

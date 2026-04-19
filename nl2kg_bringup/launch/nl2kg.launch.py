@@ -61,8 +61,14 @@ def generate_launch_description():
 
     grammar_file_arg = DeclareLaunchArgument(
         "grammar_file",
-        default_value="",
+        default_value=os.path.join(bringup_share, "params", "nl2kg.yaml"),
         description="Override path for the nl2kg_node GBNF grammar file.",
+    )
+
+    nl2kg_config_arg = DeclareLaunchArgument(
+        "nl2kg_config_file",
+        default_value=os.path.join(bringup_share, "params", "nl2kg.yaml"),
+        description="Path to the nl2kg_node YAML config file",
     )
 
     enable_embedding_arg = DeclareLaunchArgument(
@@ -106,7 +112,7 @@ def generate_launch_description():
         executable="nl2kg_node",
         name="nl2kg_node",
         parameters=[
-            os.path.join(bringup_share, "params", "nl2kg.yaml"),
+            LaunchConfiguration("nl2kg_config_file"),
             {
                 "system_prompt_file": LaunchConfiguration("system_prompt_file"),
                 "grammar_file": LaunchConfiguration("grammar_file"),
@@ -149,6 +155,7 @@ def generate_launch_description():
     ld.add_action(enable_hri_arg)
     ld.add_action(system_prompt_file_arg)
     ld.add_action(grammar_file_arg)
+    ld.add_action(nl2kg_config_arg)
     ld.add_action(enable_embedding_arg)
     ld.add_action(llama_launch)
     ld.add_action(embedding_launch)

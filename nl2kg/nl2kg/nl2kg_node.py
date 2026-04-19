@@ -215,11 +215,13 @@ class NL2KGNode(Node):
         self.declare_parameter("temperature", 0.0)
         self.declare_parameter("use_gbnf", True)
         self.declare_parameter("enable_rag", False)
+        self.declare_parameter("use_structured_output", False)
         self.declare_parameter("system_prompt_file", "")  # optional override path
         self.declare_parameter("grammar_file", "")  # optional override path
 
         temp = self.get_parameter("temperature").value
         use_gbnf = self.get_parameter("use_gbnf").value
+        use_structured_output = self.get_parameter("use_structured_output").value
         enable_rag = self.get_parameter("enable_rag").value
         system_prompt_file = self.get_parameter("system_prompt_file").value
         grammar_file = self.get_parameter("grammar_file").value
@@ -243,7 +245,7 @@ class NL2KGNode(Node):
         self.llm = ChatLlamaROS(temp=temp, grammar=grammar)
 
         # Structured output chain (Pydantic parser fallback when GBNF off)
-        if not use_gbnf:
+        if not use_gbnf and use_structured_output:
             self.structured_llm = self.llm.with_structured_output(
                 KGResponse, method="function_calling"
             )

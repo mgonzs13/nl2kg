@@ -1,5 +1,6 @@
 nl2kg_node:
   ros__parameters:
-    temperature: 0.0
-    use_gbnf: false
+    temperature: 0.2
+    use_gbnf: true
+    use_structured_output: false
     enable_rag: false
