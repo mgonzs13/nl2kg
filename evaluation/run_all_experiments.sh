@@ -50,12 +50,11 @@ SLEEP_AFTER_LAUNCH=30  # seconds to wait after launching before evaluation
 # Model definitions: (short_name  repo  filename)
 # Add or remove models here to change the experiment matrix.
 MODELS=(
-    # "gemma-3-4b-it            bartowski/google_gemma-3-4b-it-GGUF           google_gemma-3-4b-it-Q4_K_M.gguf"
-    # "Nemotron3-Nano-4B        bartowski/Nemotron-Mini-4B-Instruct-GGUF      Nemotron-Mini-4B-Instruct-Q4_K_M.gguf"
-    # "Phi-4-mini-instruct      bartowski/microsoft_Phi-4-mini-instruct-GGUF  microsoft_Phi-4-mini-instruct-Q4_K_M.gguf"
-    # "Qwen-3-4B                bartowski/Qwen_Qwen3-4B-GGUF                  Qwen_Qwen3-4B-Q4_K_M.gguf"
+    "gemma-4-4b-it            bartowski/google_gemma-4-E2B-it-GGUF          google_gemma-4-E2B-it-Q3_K_M.gguf"
+    "Nemotron3-Nano-4B        bartowski/Nemotron-Mini-4B-Instruct-GGUF      Nemotron-Mini-4B-Instruct-Q4_K_M.gguf"
+    "Phi-4-mini-instruct      bartowski/microsoft_Phi-4-mini-instruct-GGUF  microsoft_Phi-4-mini-instruct-Q4_K_M.gguf"
+    "Qwen-3-4B                bartowski/Qwen_Qwen3-4B-GGUF                  Qwen_Qwen3-4B-Q4_K_M.gguf"
     "Qwen-3.5-4B              bartowski/Qwen_Qwen3.5-4B-GGUF                Qwen_Qwen3.5-4B-Q4_K_M.gguf"
-    # "Qwen-3.5-9B              bartowski/Qwen_Qwen3.5-9B-GGUF                Qwen_Qwen3.5-9B-Q4_K_M.gguf"
 )
 
 # Grammar modes: (suffix  use_grammar_value)
@@ -115,7 +114,7 @@ generate_model_yaml() {
       filename: ${filename}
 
     context:
-      n_ctx: 8192
+      n_ctx: 16394
       n_batch: 256
       n_predict: -1
 
@@ -133,7 +132,7 @@ update_nl2kg_yaml() {
     cat > "${BRINGUP_PARAMS}/nl2kg.yaml" <<EOF
 nl2kg_node:
   ros__parameters:
-    temperature: 0.0
+    temperature: 0.2
     use_schema: ${use_grammar}
     use_structured_output: false
     enable_rag: false

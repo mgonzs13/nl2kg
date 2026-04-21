@@ -1,6 +1,6 @@
 nl2kg_node:
   ros__parameters:
     temperature: 0.2
-    use_grammar: true
+    use_schema: true
     use_structured_output: false
     enable_rag: false
