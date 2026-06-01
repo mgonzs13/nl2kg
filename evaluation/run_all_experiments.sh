@@ -132,7 +132,7 @@ update_nl2kg_yaml() {
     cat > "${BRINGUP_PARAMS}/nl2kg.yaml" <<EOF
 nl2kg_node:
   ros__parameters:
-    temperature: 0.2
+    temperature: 0.0
     use_schema: ${use_grammar}
     use_structured_output: false
     enable_rag: false

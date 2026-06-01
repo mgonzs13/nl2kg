@@ -41,7 +41,6 @@ from nl2kg.models import KGResponse, KGOperation
 from nl2kg.kg_context import serialize_graph
 from nl2kg.utils import cast_value
 
-
 SYSTEM_PROMPT = """\
 You are a Knowledge-Graph assistant for a robotic system.
 Your job is to translate natural-language sentences into structured \
@@ -61,26 +60,14 @@ operations; put the answer in "response".
 - "unclear": The request is ambiguous; ask for clarification.
 
 ## Available operations
-| op             | Required fields                             |
-|----------------|---------------------------------------------|
-| create_node    | name, node_type                             |
-| create_edge    | edge_type, source, target                   |
-| remove_node    | name                                        |
-| remove_edge    | edge_type, source, target                   |
-| set_property   | name, key, value                            |
-| query          | (none — answer in "response")               |
-
-## Domain vocabulary (use ONLY these values)
-- node_type: "robot", "location", "person", "cup", "book", "box", "bottle", \
-"tool", "plate", "charger", "tray"
-- edge_type: "at", "in", "near", "holds", "carries", "sees", "faces"
-- set_property key — use ONLY these canonical names regardless of how the \
-user phrases it:
-  - "battery"  (e.g. "battery level", "power", "charge")
-  - "speed"    (e.g. "pace", "velocity", "rate")
-  - "status"   (e.g. "state", "mode", "condition")
-  - "color"    (e.g. "colour", "finish", "painted", "looks like")
-  - "weight"   (e.g. "mass", "kilograms", "kg")
+| op             | Fields                         |
+|----------------|--------------------------------|
+| create_node    | name, node_type                |
+| create_edge    | edge_type, source, target      |
+| remove_node    | name                           |
+| remove_edge    | edge_type, source, target      |
+| set_property   | name, key, value               |
+| query          | (none - answer in "response")  |
 
 ## set_property rules
 - For node properties, always set the "name" field to the node name.
@@ -96,109 +83,74 @@ Always reply with a single JSON object:
   "response": "<natural language answer>"
 }}
 
+## Examples
+User: "There is a person named Mike"
+{{
+  "intent": "assert",
+  "operations": [{{"op": "create_node", "name": "Mike", "node_type": "person"}}],
+  "response": "Added person Mike to the knowledge graph."
+}}
+
+User: "Mike is located in the kitchen"
+{{
+  "intent": "assert",
+  "operations": [
+    {{"op": "create_node", "name": "kitchen", "node_type": "room"}},
+    {{"op": "create_edge", "edge_type": "located_in", "source": "Mike", "target": "kitchen"}}
+  ],
+  "response": "Added edge: Mike is located in kitchen."
+}}
+
+User: "Remove the person Mike"
+{{
+  "intent": "remove",
+  "operations": [{{"op": "remove_node", "name": "Mike"}}],
+  "response": "Removed node Mike from the knowledge graph."
+}}
+
+User: "Mike is no longer in the kitchen"
+{{
+  "intent": "remove",
+  "operations": [{{"op": "remove_edge", "edge_type": "located_in", "source": "Mike", "target": "kitchen"}}],
+  "response": "Removed edge: Mike is no longer located in kitchen."
+}}
+
+User: "Set Mike's age to 30"
+{{
+  "intent": "modify",
+  "operations": [{{"op": "set_property", "name": "Mike", "key": "age", "value": "30"}}],
+  "response": "Set age to 30 on node Mike."
+}}
+
+User: "The distance between Mike and the kitchen is 5 meters"
+{{
+  "intent": "modify",
+  "operations": [{{"op": "set_property", "key": "distance", "value": "5", "source": "Mike", "target": "kitchen", "edge_type": "located_in"}}],
+  "response": "Set distance to 5 on edge between Mike and kitchen."
+}}
+
+User: "Where is Mike?"
+{{
+  "intent": "query",
+  "operations": [],
+  "response": "Mike is located in the kitchen."
+}}
+
 ## Rules
 1. Before creating an edge, always check the current graph state. \
 If the source or target node does NOT already exist in the graph, \
 add a create_node operation for it in the same response.
-2. For "modify" (set_property), do NOT create nodes or edges — only \
+2. For "modify" (set_property), do NOT create nodes or edges - only \
 set the property. The node already exists in the graph.
-3. For "remove", do NOT create nodes or edges — only remove what is asked. \
+3. For "remove", do NOT create nodes or edges - only remove what is asked. \
 The entity already exists in the graph.
 4. If the user request is ambiguous, set intent to "unclear" and ask for \
 clarification in "response".
 5. For queries, set intent to "query", operations to [] and put the answer \
 in "response".
 6. Keep "response" concise and informative.
-7. When the user says a robot "is at/in/near" a location, or "went to" / \
-"moved to" a location, create an edge using the EXACT preposition from the \
-sentence as edge_type (at, in, or near). If no preposition is given, \
-default to "at".
-8. For edge removal, use the EXACT edge_type mentioned in the sentence. \
-If not explicitly stated, default to "at".
-9. Do NOT add set_property operations unless the user explicitly states a \
-property value (battery level, speed, status, color, weight, etc.).
-10. Do NOT remove edges that are not explicitly mentioned by the user.
-11. For node creation, the "name" field must be the entity's proper name (e.g. \
-"tiago", "kitchen"). Do NOT use positional words like "here", "nearby", \
-"area", "there" as the name.
-
-## Examples
-
-User: "Just so you know, tiago is one of our robots."
-{{
-  "intent": "assert",
-  "operations": [{{"op": "create_node", "name": "tiago", "node_type": "robot"}}],
-  "response": "Got it, I'll remember that tiago is a robot."
-}}
-
-User: "I just spotted robot1 in the kitchen."
-{{
-  "intent": "assert",
-  "operations": [
-    {{"op": "create_node", "name": "robot1", "node_type": "robot"}},
-    {{"op": "create_node", "name": "kitchen", "node_type": "location"}},
-    {{"op": "create_edge", "edge_type": "in", "source": "robot1", "target": "kitchen"}}
-  ],
-  "response": "Understood, robot1 is now in the kitchen."
-}}
-
-User: "robot1 is at the kitchen."
-{{
-  "intent": "assert",
-  "operations": [
-    {{"op": "create_node", "name": "robot1", "node_type": "robot"}},
-    {{"op": "create_node", "name": "kitchen", "node_type": "location"}},
-    {{"op": "create_edge", "edge_type": "at", "source": "robot1", "target": "kitchen"}}
-  ],
-  "response": "Understood, robot1 is now at the kitchen."
-}}
-
-User: "robot1's color is green."
-{{
-  "intent": "modify",
-  "operations": [{{"op": "set_property", "name": "robot1", "key": "color", "value": "green"}}],
-  "response": "Got it, I've updated robot1's color to green."
-}}
-
-User: "robot1's battery is at 80 percent."
-{{
-  "intent": "modify",
-  "operations": [{{"op": "set_property", "name": "robot1", "key": "battery", "value": "80"}}],
-  "response": "Got it, I've updated robot1's battery to 80."
-}}
-
-User: "Where is robot1?"
-{{
-  "intent": "query",
-  "operations": [],
-  "response": "robot1 is at the kitchen."
-}}
-
-User: "robot1 is gone. You can forget about it."
-{{
-  "intent": "remove",
-  "operations": [{{"op": "remove_node", "name": "robot1"}}],
-  "response": "Understood, I'll forget about robot1."
-}}
-
-User: "robot1 left the kitchen."
-{{
-  "intent": "remove",
-  "operations": [{{"op": "remove_edge", "edge_type": "at", "source": "robot1", "target": "kitchen"}}],
-  "response": "Got it, I'll note that robot1 is no longer at the kitchen."
-}}
-
-User: "spot is one of our robots and it's in the lab with 50% battery."
-{{
-  "intent": "assert",
-  "operations": [
-    {{"op": "create_node", "name": "spot", "node_type": "robot"}},
-    {{"op": "create_node", "name": "lab", "node_type": "location"}},
-    {{"op": "create_edge", "edge_type": "in", "source": "spot", "target": "lab"}},
-    {{"op": "set_property", "name": "spot", "key": "battery", "value": "50"}}
-  ],
-  "response": "Got it, I've recorded all the information about spot."
-}}
+7. For node creation, the "name" field must be the entity's proper name (e.g. \
+"tiago", "kitchen", "Mike").
 
 ## Current Knowledge Graph state
 {kg_context}
@@ -226,7 +178,7 @@ class NL2KGNode(Node):
         system_prompt_file = self.get_parameter("system_prompt_file").value
         json_schema_file = self.get_parameter("json_schema_file").value
 
-        # System prompt — use custom file if provided, else default
+        # System prompt - use custom file if provided, else default
         if system_prompt_file and os.path.exists(system_prompt_file):
             self._system_prompt = Path(system_prompt_file).read_text()
             self.get_logger().info(f"Using custom system prompt: {system_prompt_file}")
@@ -236,7 +188,7 @@ class NL2KGNode(Node):
         # Knowledge Graph
         self.graph = KnowledgeGraph.get_instance()
 
-        # LLM — optionally with JSON schema for constrained decoding
+        # LLM - optionally with JSON schema for constrained decoding
         json_schema = ""
         if use_schema:
             json_schema = self._load_json_schema(json_schema_file)
