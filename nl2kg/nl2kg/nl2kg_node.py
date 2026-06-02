@@ -72,8 +72,6 @@ operations; put the answer in "response".
 ## set_property rules
 - For node properties, always set the "name" field to the node name.
 - Only use "source" and "target" when setting a property on an edge.
-- ALWAYS use the canonical key name from the vocabulary above (e.g. \
-write "color", never "colour").
 
 ## Output format
 Always reply with a single JSON object:
