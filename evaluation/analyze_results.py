@@ -235,6 +235,128 @@ def print_per_category(rows: list[dict], all_results: dict[str, dict]) -> None:
     print("─" * (37 + 13 * len(cats)))
 
 
+def print_per_category_full(rows: list[dict], all_results: dict[str, dict]) -> None:
+    """Print full per-category breakdown (Intent, F1, EM, EmbSim, Latency) per model."""
+
+    # Collect and sort categories
+    all_cats = set()
+    for data in all_results.values():
+        per_cat = data.get("metrics", {}).get("per_category", {})
+        all_cats.update(per_cat.keys())
+    cats = sorted(all_cats)
+
+    METRICS = [
+        ("Int", "intent_accuracy", 3),
+        ("F1", "mean_ops_f1", 3),
+        ("EM", "exact_match_rate", 3),
+        ("Emb", "mean_embedding_similarity", 3),
+        ("Lat", "mean_latency_s", 2),
+    ]
+    N = len(METRICS)
+    col_w = 6  # width per metric cell
+
+    # Build sorted experiment list (grammar first, then alphabetical by model)
+    exps = sorted(rows, key=lambda x: (x["grammar"] != "yes", x["model"]))
+
+    print("\n" + "=" * 120)
+    print("  PER-CATEGORY FULL BREAKDOWN (grammar-constrained only)")
+    print("=" * 120)
+
+    for r in exps:
+        if r["grammar"] != "yes":
+            continue
+        name = r["experiment"]
+        model = r["model"]
+        data = all_results.get(name, {})
+        per_cat = data.get("metrics", {}).get("per_category", {})
+
+        # Header line for this model
+        header_cats = "  ".join(f"{c[:20]:<20s}" for c in cats)
+        print(f"\n  Model: {model}")
+        # Sub-header: category names, then under each the 5 metric labels
+        cat_header = f"  {'Category':<18s}│ "
+        cat_header += "  ".join(
+            " ".join(f"{m[0]:>{col_w}s}" for m in METRICS) for _ in cats
+        )
+        cat_label_row = f"  {'':18s}│ "
+        cat_label_row += "  ".join(f"{'  '+c[:16]:<{N*col_w + N - 1}s}" for c in cats)
+        # simpler: one column-group header per category
+        sep = "─" * (20 + 2 + len(cats) * (N * (col_w + 1) + 3))
+        print(sep)
+        # Category names row
+        row0 = f"  {'':18s}│ "
+        row0 += "  ".join(f"{c[:20]:<{N*(col_w+1)-1}s}" for c in cats)
+        print(row0)
+        # Metric labels row
+        row1 = f"  {'':18s}│ "
+        row1 += "  ".join(" ".join(f"{m[0]:>{col_w}s}" for m in METRICS) for _ in cats)
+        print(row1)
+        print(sep)
+
+        # One data row per ... actually only 1 row (overall per category for this model)
+        row_data = f"  {'(all samples)':<18s}│ "
+        vals_groups = []
+        for c in cats:
+            cm = per_cat.get(c, {})
+            group = []
+            for mname, mkey, mfmt in METRICS:
+                v = cm.get(mkey)
+                if v is None:
+                    group.append(f"{'---':>{col_w}s}")
+                elif mfmt == 2:
+                    group.append(f"{v:>{col_w}.2f}")
+                else:
+                    group.append(f"{v:>{col_w}.3f}")
+            vals_groups.append(" ".join(group))
+        row_data += "  ".join(vals_groups)
+        print(row_data)
+        print(sep)
+
+    # Now print a compact combined table: rows=categories, cols=model×metric
+    print("\n" + "=" * 120)
+    print("  PER-CATEGORY FULL BREAKDOWN — COMPACT (grammar-constrained, all models)")
+    print("=" * 120)
+
+    grammar_exps = [r for r in exps if r["grammar"] == "yes"]
+    models = [r["model"] for r in grammar_exps]
+    N_models = len(models)
+
+    # Header row 1: model names spanning 5 metric cols each
+    span = N * (col_w + 1) - 1
+    h1 = f"  {'Category':<18s}│ " + "  ".join(f"{m:<{span}s}" for m in models)
+    print(h1)
+    # Header row 2: metric names under each model
+    h2 = f"  {'':18s}│ " + "  ".join(
+        " ".join(f"{met[0]:>{col_w}s}" for met in METRICS) for _ in models
+    )
+    print(h2)
+    sep2 = "─" * (20 + 2 + N_models * (N * (col_w + 1) + 2))
+    print(sep2)
+
+    for c in cats:
+        row = f"  {c:<18s}│ "
+        groups = []
+        for r in grammar_exps:
+            name = r["experiment"]
+            data = all_results.get(name, {})
+            per_cat = data.get("metrics", {}).get("per_category", {})
+            cm = per_cat.get(c, {})
+            group = []
+            for mname, mkey, mfmt in METRICS:
+                v = cm.get(mkey)
+                if v is None:
+                    group.append(f"{'---':>{col_w}s}")
+                elif mfmt == 2:
+                    group.append(f"{v:>{col_w}.2f}")
+                else:
+                    group.append(f"{v:>{col_w}.3f}")
+            groups.append(" ".join(group))
+        row += "  ".join(groups)
+        print(row)
+
+    print(sep2)
+
+
 def print_per_op_type(all_results: dict[str, dict]) -> None:
     """Print per-operation-type F1 for each experiment."""
 
@@ -321,6 +443,7 @@ def main():
     print_comparison_table(rows)
     print_grammar_ablation(rows)
     print_per_category(rows, all_results)
+    print_per_category_full(rows, all_results)
     print_per_op_type(all_results)
 
     # Export CSV
