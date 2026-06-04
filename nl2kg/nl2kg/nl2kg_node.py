@@ -57,24 +57,41 @@ Return ONLY a raw JSON object. No markdown, no code fences, no explanation.
 }}
 
 ## Intents
-- "assert": Adds NEW facts (nodes/edges). Use for ANY sentence creating \
-nodes or edges, even with properties.
+- "assert": Adds NEW facts (nodes, edges, properties). Use for creating \
+new graph elements. Combine create_node + set_property within a single \
+"assert" when introducing something new AND setting its attribute.
 - "query": Question about the graph. operations=[], answer in "response". \
-Use ONLY the provided graph state — do not invent facts.
-- "remove": Deletes existing nodes or edges.
-- "modify": Changes a property on an EXISTENT node/edge (set_property only).
+Use ONLY the provided graph state - do not invent facts. Only use for \
+direct questions (what? where? who? do you know? can you tell?).
+- "remove": Deletes existing nodes or edges. Also use when someone states \
+that something "is no longer", "isn't anymore", "left", "departed", \
+"gone from", "vacated", or "don't see X anymore".
+- "modify": Changes a property on an EXISTENT node or edge. Only use when \
+the target node already exists in the graph AND the utterance describes \
+a changed attribute. If the node does not exist, use "assert" instead.
 - "unclear": Ambiguous request. Ask for clarification in "response".
 
 ## Operations
-| op             | Fields                        |
-|----------------|-------------------------------|
-| create_node    | name, node_type               |
-| create_edge    | edge_type, source, target     |
-| remove_node    | name                          |
-| remove_edge    | edge_type, source, target     |
-| set_property   | name, key, value              |
+| op             | Fields                       |
+|-----------------------------------------------|
+| create_node    | name, node_type              |
+| create_edge    | edge_type, source, target    |
+| remove_node    | name                         |
+| remove_edge    | edge_type, source, target    |
+| set_property   | name, key, value             |
 
-For set_property on an edge, include source, target, and edge_type.
+For set_property on an EDGE, use key, value, source, target, and edge_type \
+(instead of name).
+
+## Intent Rules
+- "I don't see X anymore", "X is no longer at Y", "X is not at Y now", \
+"X left Y" -> intent "remove". Only use "query" for actual questions.
+- If a node exists in the current graph state and the user updates its \
+attribute -> intent "modify". If the node does not exist -> "assert" \
+(create_node + set_property together).
+- Figurative or incidental language ("works with us", "is assigned here", \
+"is around somewhere") describes context, not entities. Only create \
+nodes for explicitly named concrete entities.
 
 ## Examples
 User: "There is a person named Mike"
@@ -93,17 +110,19 @@ User: "Set Mike's age to 30"
 {{"intent": "modify", "operations": [{{"op": "set_property", "name": "Mike", "key": "age", "value": "30"}}], "response": "Set age=30 on Mike."}}
 
 User: "The distance between Mike and the kitchen is 5 meters"
-{{"intent": "modify", "operations": [{{"op": "set_property", "key": "distance", "value": "5", "source": "Mike", "target": "kitchen", "edge_type": "located_in"}}], "response": "Set distance=5 on edge Mike→kitchen."}}
+{{"intent": "modify", "operations": [{{"op": "set_property", "key": "distance", "value": "5", "source": "Mike", "target": "kitchen", "edge_type": "located_in"}}], "response": "Set distance=5 on edge Mike->kitchen."}}
 
 User: "Where is Mike?"
 {{"intent": "query", "operations": [], "response": "Mike is located in the kitchen."}}
 
 ## Rules
-1. Check graph state before creating edges. If source/target doesn't exist, \
-include a create_node in the same response.
+1. Check graph state before creating edges. If source/target doesn't \
+exist, include a create_node in the same response.
 2. "modify" and "remove" must NOT create nodes or edges.
-3. Node names use the entity's proper name (e.g. "tiago", "kitchen").
-4. Ambiguous requests → intent "unclear", ask in "response".
+3. Apply the Node Type Rules strictly - they are not optional.
+4. Strip units from property values (see Property Value Rules).
+5. Do not create nodes for incidental or figurative language.
+6. Ambiguous requests -> intent "unclear", ask in "response".
 
 ## Current Knowledge Graph state
 {kg_context}

@@ -19,7 +19,9 @@ remove-node-op ::= "{" ws "\"op\"" ws ":" ws "\"remove_node\"" "," ws "\"name\""
 
 remove-edge-op ::= "{" ws "\"op\"" ws ":" ws "\"remove_edge\"" "," ws "\"edge_type\"" ws ":" ws edge-type-value "," ws "\"source\"" ws ":" ws string "," ws "\"target\"" ws ":" ws string ws "}"
 
-set-property-op ::= "{" ws "\"op\"" ws ":" ws "\"set_property\"" "," ws "\"name\"" ws ":" ws string "," ws "\"key\"" ws ":" ws string "," ws "\"value\"" ws ":" ws string ws "}"
+set-property-op ::= node-set-prop-op | edge-set-prop-op
+node-set-prop-op ::= "{" ws "\"op\"" ws ":" ws "\"set_property\"" "," ws "\"name\"" ws ":" ws string "," ws "\"key\"" ws ":" ws string "," ws "\"value\"" ws ":" ws string ws "}"
+edge-set-prop-op ::= "{" ws "\"op\"" ws ":" ws "\"set_property\"" "," ws "\"key\"" ws ":" ws string "," ws "\"value\"" ws ":" ws string "," ws "\"source\"" ws ":" ws string "," ws "\"target\"" ws ":" ws string "," ws "\"edge_type\"" ws ":" ws edge-type-value ws "}"
 
 query-op ::= "{" ws "\"op\"" ws ":" ws "\"query\"" ws "}"
 

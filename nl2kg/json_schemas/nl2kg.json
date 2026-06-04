@@ -104,6 +104,13 @@
     },
 
     "set_property": {
+      "oneOf": [
+        { "$ref": "#/$defs/set_node_property" },
+        { "$ref": "#/$defs/set_edge_property" }
+      ]
+    },
+
+    "set_node_property": {
       "type": "object",
       "additionalProperties": false,
       "required": ["op", "name", "key", "value"],
@@ -112,6 +119,20 @@
         "name": { "type": "string" },
         "key": { "type": "string" },
         "value": { "type": "string" }
+      }
+    },
+
+    "set_edge_property": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "key", "value", "source", "target", "edge_type"],
+      "properties": {
+        "op": { "const": "set_property" },
+        "key": { "type": "string" },
+        "value": { "type": "string" },
+        "source": { "type": "string" },
+        "target": { "type": "string" },
+        "edge_type": { "$ref": "#/$defs/edge_type" }
       }
     },
 
